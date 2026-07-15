@@ -1,0 +1,567 @@
+{
+  "auth": {
+    "welcome_back": "Welcome Back!",
+    "title": "Sign In",
+    "sign_in_subtitle": "Please sign in to access your sales dashboard.",
+    "username_or_phone": "Username or Phone Number",
+    "password": "Password",
+    "forgot_password": "Forgot Password?",
+    "email": "Email",
+    "phone_number":"Phone Number", 
+    "send_reset_link": "Continue",
+    "resend_code_in": "Resend code in {seconds}s",
+    "resend_code": "Resend Code",
+    "resend_or_try_different": "Resend code or try a different email/phone",
+    "verify_code_title": "Verify Code",
+    "verify_code_subtitle": "Enter the verification code we sent to {target}.",
+    "verify": "Verify",
+    "invalid_code": "That code isn't right. Please try again.",
+    "otp_incomplete": "Please enter the full 6-digit code",
+
+    "forgot_password_title": "Reset Password",
+    "forgot_password_subtitle": "Enter your email address or phone number to receive a verification code.",
+    "check_your_inbox": "Check Your Inbox",
+    "reset_instructions_sent": "We've sent a verification code to {target}",
+    "back_to_login": "Back to Login",
+    "something_went_wrong": "Something went wrong. Please try again.",
+    "create_new_password_title": "Create New Password",
+    "create_new_password_subtitle": "Your new password must be different from previously used passwords.",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "passwords_dont_match": "Passwords do not match",
+    "reset_password_button": "Reset Password",
+    "reset_password_success_title": "Password Reset!",
+    "reset_password_success_subtitle": "Your password has been changed successfully. You can now sign in with your new password.",
+    "lets_go": "Let's Go",
+    "login_required_title": "Login Required",
+    "login_required_desc": "Please sign in to continue using this feature. Your data will be synced securely across your devices.",
+    "login_now": "Login Now",
+    "later": "Later",
+    "new_here": "New here?",
+    "request_access": "Request Access",
+    "remember_me": "Remember Me",
+    "login_btn": "Sign In",
+    "logging_in": "Signing in...",
+    "email_required": "Email is required",
+    "invalid_email": "Please enter a valid email address",
+    "password_too_short": "Password must be at least 6 characters",
+    "password_required": "Password is required",
+    "validation": {
+      "required": "This field is required",
+      "invalid_cred": "Incorrect username or password. Please try again.",
+      "session_expired": "Session expired. Please log in again."
+    }
+  },
+ "common": {
+    "try_again": "Try again",
+    "retry": "Retry",
+    "good_morning": "Good morning",
+    "good_afternoon": "Good afternoon",
+    "good_evening": "Good evening",
+    "loading": "Loading…",
+    "offline": "You're offline — showing saved data",
+    "generic_error": "Something went wrong. Please try again.",
+    "no_connection": "No internet connection. Changes are saved on your device.",
+    "view_details": "View Details"
+  },
+  
+  "home": {
+    "title": "Home Dashboard",
+    "welcome": "Welcome Back",
+    "achieved": "Achieved",
+    "target": "Target",
+    "quick_access": {
+      "leads": "Leads",
+      "opportunities": "Opportunities",
+      "won_deals": "Won Deals",
+      "orders": "Orders",
+      "customers": "Customers",
+      "active": "Active",
+      "prospect": "Prospect",
+      "total_customers": "Total Customers",
+      "suspended": "Suspended",
+      "routes": "Routes",
+      "revenue": "Revenue",
+      "add_customer": "Add Customer",
+      
+      "total_pipeline": "Total Pipeline",
+      "new": "New",
+      "total_orders": "Total Orders",
+      "pending": "Pending",
+      "success": "Success",
+      "total_routes": "Total Routes",
+      "today_active": "Today Active",
+      "missed": "Missed",
+      "remaining": "Remaining"
+    },
+    "recent_activity": "Recent Activity",
+    "total_customers": "Total Customers",
+    "new_customers": "New Customers"
+  },
+  "orders": {
+    "title": "Orders",
+    "new": "Create New Order",
+    "new_order": "New Order",
+    "recent": "Recent Orders",
+    "no_orders": "No orders yet",
+    "history": "Order History",
+    "pending_sync": "Pending Sync",
+    "items_count": "{count} items",
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "catalog": {
+      "title": "Product Catalog",
+      "back": "Back",
+      "menu": "Menu",
+      "search_hint": "Search, speak, scan or photo…",
+      "idle_hint": "Search via text, speak 🎤, scan 📷 or upload a photo to find items.",
+      "no_products": "No products found",
+      "added_to_cart": "{name} added to cart",
+      "search_by_photo": "Search by photo",
+      "take_photo": "Take a photo",
+      "upload_gallery": "Upload from gallery",
+      "voice_search": "Voice search: \"{query}\"",
+      "matched_photo": "Matched by photo: {query}",
+      "out_of_stock": "Out of stock",
+      "all_categories": "All",
+      "load_more": "Load more"
+    },
+    "territory": {
+      "title": "Select Territory",
+      "pick_territory": "No territories found",
+      "shop_count": "{count} shops"
+    },
+    "shop": {
+      "credit_remaining": "Credit Remaining",
+      "outstanding": "Outstanding CN/DN",
+      "off_visit_warning": "You're not checked in at this shop — this order is off-visit.",
+      "reason_phone_order": "Phone order",
+      "reason_urgent_restock": "Urgent restock",
+      "reason_passing_by": "Passing by",
+      "start_quotation": "Start Quotation",
+      "pick_another_shop": "Pick Another Shop",
+      "capture_gps": "Capturing location…"
+    },
+    "quotation": {
+      "builder_title": "Quotation",
+      "save_to_sap": "Save Quotation to SAP",
+      "quotation_number": "Quotation Total",
+      "details_title": "Quotation Details",
+      "valid_until": "Valid Until",
+      "sap_draft_status": "SAP Draft Status",
+      "convert_to_sales_order": "Convert to Sales Order",
+      "edit_quotation": "Edit Quotation",
+      "convert_disabled_lead": "Convert once this lead becomes an approved SAP customer.",
+      "cart_preview_title": "Cart Preview",
+      "view_cart": "View Cart"
+    },
+    "sales_order": {
+      "title": "Sales Order",
+      "stock_in": "In stock",
+      "stock_low": "Low stock",
+      "stock_out": "Out of stock",
+      "create_in_sap": "Create Sales Order in SAP",
+      "sap_status": "SAP Status"
+    },
+    "success": {
+      "title": "Order Complete",
+      "done": "Done",
+      "new_order": "New Order",
+      "sap_message": "Delivery and invoice continue through SAP."
+    }
+  },
+  "leads": {
+    "title": "Leads",
+    "new": "Add New Lead",
+    "opportunities": "Opportunities",
+    "won_deals": "Won Deals",
+    "recent": "Recent Leads",
+    "no_leads": "No leads yet",
+    "view_details": "View Details",
+    "view_leads": "View Leads >",
+    "lead_details": "Lead Details",
+    "hot_leads": "Hot Leads",
+    "follow_up": "Follow Up Required"
+  },
+  "customers": {
+    "title": "Customers",
+    "list": "Customer List",
+    "add": "Register Customer",
+    "credit_limit": "Credit Limit",
+    "no_customers": "No customers found",
+    "nothing_here": "Nothing here yet",
+    "all": "All",
+    "recent": "Recent",
+    "favorites": "Favorites",
+    "search_hint": "Search shop, code, owner, phone…",
+    "calling": "Calling {phone}…",
+    "visit_logged": "Visit logged",
+    "customer_fallback": "Customer",
+    "overview": "Overview",
+    "contacts": "Contacts",
+    "sales_history": "Sales History",
+    "sap_info": "SAP Information",
+    "timeline": "Timeline",
+    "no_activity": "No activity yet",
+    "customer_code": "Customer Code",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "assigned_rep": "Assigned Rep",
+    "open_opportunities": "Open Opportunities",
+    "lifetime_value": "Lifetime Value",
+    "last_order": "Last Order",
+    "no_orders": "No orders yet",
+    "sap_customer_id": "SAP Customer ID",
+    "last_synced": "Last Synced",
+    "add_note": "Add Note",
+    "note_hint": "Write a note about this customer…",
+    "save_note": "Save Note",
+    "new_opportunity": "New Opportunity for {shop}",
+    "new_opportunity_label": "New Opportunity",
+    "estimated_value": "Estimated Value ($)",
+    "create_opportunity": "Create Opportunity",
+    "opportunity_opened": "New opportunity opened (${value})",
+    "call": "Call",
+    "visit": "Visit",
+    "note": "Note",
+    "filter_sort": "Filter & Sort",
+    "status_label": "Status",
+    "territory": "Territory",
+    "sort_by": "Sort by",
+    "apply": "Apply",
+    "downloading": "Downloading customer directory…",
+    "syncing": "Syncing latest changes…",
+    "sync_updated": "{count} updated",
+    "sync_removed": ", {count} removed",
+    "status": {
+      "active": "Active",
+      "dormant": "Dormant",
+      "credit_hold": "Credit Hold"
+    },
+    "sort": {
+      "recently_ordered": "Recently ordered",
+      "alphabetical": "Alphabetical",
+      "nearest": "Nearest to me",
+      "highest_value": "Highest value"
+    }
+  },
+  "notification": {
+    "title": "Notifications",
+    "mark_all_read": "Mark all as read",
+    "empty": "No new notifications"
+  },
+  "my_visits": {
+    "title": "My Visits",
+    "list": "Visit List",
+    "add_my_visits": "Add My Visits",
+    "details": "Visit Details",
+    "flow": {
+      "dispatch_title": "Visit Route",
+      "dispatch_helper": "Visits are planned by the office. Tap the next shop to head there.",
+      "shops": "shops",
+      "pill_next": "Next",
+      "pill_pending": "Pending",
+      "pill_done": "Done",
+      "pill_missed": "Missed",
+      "minutes_shortTemplate": "{minutes} min",
+      "geo_matchedTemplate": "Inside shop area (GPS {dist} m away)",
+      "pill_checked_in": "Checked In",
+      "start_with": "Start with {shop}",
+      "route_complete": "Route complete",
+      "deviation_warning": "Heading out of the planned order — that's OK.",
+      "minutes_short": "min",
+      "transit_banner_locked": "Check-in only opens once you're at the shop (GPS geofence).",
+      "transit_banner_ready": "You're inside the shop area — check-in is ready.",
+      "ive_arrived": "I've Arrived",
+      "transit_disclaimer": "Move within ~{radius} m of the shopfront to unlock check-in.",
+      "checkin_title": "Check-in",
+      "geo_matched": "Inside the shop area · GPS matched",
+      "geo_not_matched": "Not inside the shop area yet · {dist} m away",
+      "proof_photo": "Proof photo",
+      "take_photo": "Take a shopfront photo",
+      "fit_frame": "Fit the shopfront inside the frame",
+      "retake": "Retake",
+      "checkin_explainer": "Check-in time and place are stamped, so the office knows the visit really happened.",
+      "checkin_continue": "Check-in & Continue",
+      "hint_move_inside": "Move inside the shop area to check in.",
+      "hint_take_photo": "Take a shopfront photo to continue.",
+      "shelf_count_title": "Quick shelf count",
+      "shelf_count_subtitle": "Count what's on the shelf for each item.",
+      "market_intel": "Market Intelligence",
+      "on_shelf": "on-shelf",
+      "out_of_stock": "out of stock",
+      "stock_insight": "This tells the office what the shop is low on — {names} out of stock, worth quoting.",
+      "done_build_quote": "Done · Build Quotation",
+      "back": "Back",
+      "no_stop": "No stop selected",
+      "offline_saved": "Offline — changes are saved on your device",
+      "today": "Today",
+      "no_routes_today": "No routes assigned for today",
+      "stops_today": "Stops today",
+      "missed": "Missed",
+      "collections": "Collections",
+      "orders_value": "Orders value"
+    },
+    "history": {
+      "view_history": "Visit History",
+      "view_history_subtitle": "See your completed and missed visits",
+      "title": "My Visits",
+      "subtitle": "{count} visits",
+      "empty_title": "No visits yet",
+      "empty_subtitle": "Visits you complete will show up here.",
+      "error_title": "Couldn't load your visits",
+      "error_message": "Something went wrong. Check your connection and try again.",
+      "retry": "Try Again",
+      "status_completed": "Completed",
+      "status_missed": "Missed",
+      "status_pending": "Pending Review",
+      "details_title": "Visit Details",
+      "checked_in": "Checked in",
+      "checked_out": "Checked out",
+      "duration": "Duration",
+      "notes": "Visit Notes",
+      "no_notes": "No notes added for this visit.",
+      "photos": "Proof Photos",
+      "no_photos": "No photos captured for this visit.",
+      "order_placed": "Order Placed",
+      "collected_amount": "Amount Collected",
+      "customer": "Customer",
+      "call": "Call",
+      "directions": "Directions",
+      "preview_state": "Preview state",
+      "state_loading": "Loading",
+      "state_loaded": "Loaded",
+      "state_empty": "Empty",
+      "state_error": "Error"
+    }
+  },
+  "language": {
+    "choose_title": "Choose Language",
+    "choose_subtitle": "Select your preferred language interface",
+    "english": "English",
+    "english_region": "United States",
+    "language_change_anytime": "You can change the language anytime in your profile settings.",
+    "khmer": "ភាសាខ្មែរ",
+    "khmer_region": "Cambodia"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "no_notifications": "No notifications",
+    "kinds": {
+      "creditApproved": "Credit Approved",
+      "leadAssigned": "New Lead Assigned",
+      "opportunityMoved": "Pipeline Deal Updated",
+      "creditPending": "Credit Status Pending",
+      "followUpDue": "Follow-up Due Reminder"
+    }
+  },
+
+  
+  "add_customer": {
+    "steps": {
+      "shop_details": "Shop Details",
+      "contact_person": "Contact Person",
+      "location_papers": "Location & Documents"
+    },
+    "step_indicator": "Step {current}/{total}",
+    "subtitle": "Fill in the new customer information",
+    "shop_name": "Shop Name",
+    "shop_name_hint": "Enter shop name",
+    "shop_type": "Shop Type",
+    "owner_name": "Owner Name",
+    "owner_name_hint": "Enter owner name",
+    "contact_name": "Contact Name",
+    "contact_name_hint": "Enter contact person's name",
+    "role": "Role",
+    "phone": "Phone Number",
+    "phone_hint": "Enter phone number",
+    "pick_one": "Select one",
+    "telemetry": "GPS Location",
+    "gps_save": "Save GPS Location",
+    "gps_verified": "GPS Verified",
+    "gps_hint": "Tap to capture current location",
+    "compliance": "Compliance Documents",
+    "licence": "Business License",
+    "licence_hint": "Attach license document",
+    "licence_attached": "License attached",
+    "tax_paper": "Tax Patent / Certificate",
+    "tax_paper_hint": "Attach tax document",
+    "tax_paper_attached": "Tax document attached",
+    "credit_notice": "Customer will be eligible for credit once this information is approved by HQ.",
+    "next_step": "Next Step",
+    "send_to_hq": "Send to Headquarters",
+    "success": "Customer added successfully!",
+    "error": {
+      "required": "This field is required"
+    }
+  },
+  "add_customer.shop_types": {
+    "hardware_shop": "Hardware Shop",
+    "retailer": "Retailer",
+    "wholesaler": "Wholesaler",
+    "project_contractor": "Project Contractor"
+  },
+  "add_customer.roles": {
+    "owner": "Owner",
+    "manager": "Manager",
+    "buyer": "Buyer"
+  }
+,
+  
+  "profile": {
+    "title": "Profile",
+    "details": "Details",
+    "email": "Email",
+    "phone": "Phone",
+    "territory": "Territory",
+    "region": "Region",
+    "joined": "Joined",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "edit_profile": "Edit Profile",
+    "change_password": "Change Password",
+    "logout": "Log Out",
+    "logout_confirm_title": "Log out?",
+    "logout_confirm_body": "You will need to sign in again to continue.",
+    "cancel": "Cancel",
+    "full_name": "Full name",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_new_password": "Confirm new password",
+    "required": "Required",
+    "password_min_length": "At least 8 characters",
+    "passwords_dont_match": "Passwords do not match",
+    "save_changes": "Save Changes",
+    "update_password": "Update Password",
+    "updated_success": "Profile updated",
+    "updated_failure": "Could not update profile",
+    "password_success": "Password updated",
+    "password_failure": "Could not update password"
+  },
+
+  "appearance": {
+    "title": "Appearance",
+    "theme": "Theme",
+    "choose_theme": "Choose theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System default",
+    "light_hint": "Bright, high-contrast interface",
+    "dark_hint": "Easier on the eyes in low light",
+    "system_hint": "Match your device setting"
+  },
+
+  "revenue": {
+    "title": "Revenue",
+    "search_hint": "Search products by name or SKU…",
+    "credit": {
+      "available": "Available Credit",
+      "limit": "Limit",
+      "used": "Used",
+      "outstanding": "Outstanding",
+      "over_limit": "Over Limit"
+    },
+    "discount": {
+      "title": "Discount"
+    },
+    "cart": {
+      "items_count": "{count} items in cart",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "total": "Total",
+      "create_order": "Create Order",
+      "order_created": "Order created (mock)"
+    },
+    "empty": {
+      "title": "No products found",
+      "subtitle": "Try a different search term or category."
+    },
+    "error": {
+      "title": "Couldn't load revenue data"
+    }
+  },
+
+  "coach": {
+    "welcome": {
+      "title": "Welcome to ISI Steel 👋",
+      "message": "A quick tour to get you selling faster. Ready?"
+    },
+    "home": {
+      "title": "Your dashboard",
+      "message": "Everything you need for the day lives right here."
+    },
+    "target": {
+      "title": "Monthly target",
+      "message": "Track your sales progress against this month's goal."
+    },
+    "quick_actions": {
+      "title": "Quick actions",
+      "message": "Start a quote or lead in a single tap."
+    },
+    "new_lead": {
+      "title": "Create a lead",
+      "message": "Tap “New lead” to add your first customer."
+    },
+    "my_work":{
+      "title":"My Work Section",
+      "message":"Manage your daily tasks, leads, and customer details directly from this central hub."
+    },
+
+    
+    "my_leads": {
+      "title": "My Leads",
+      "message": "Tap “My Leads” to manage your pipeline."
+    },
+    "my_visits": {
+      "title": "My Visits",
+      "message": "Tap “My Visits” to plan and track site visits."
+    },
+    "customers": {
+      "title": "My Customers",
+      "message": "Tap “My Customers” to view your accounts."
+    },
+    "orders": {
+      "title": "Quotes & Orders",
+      "message": "Tap “Quotes & Orders” to manage your deals."
+    },
+    "new_quote": {
+      "title": "New quote",
+      "message": "Build a price quote for a customer in seconds."
+    },
+    "depot_stock": {
+      "title": "Depot stock",
+      "message": "Check live stock at your depots before you quote."
+    },
+    "language": {
+      "title": "Switch language",
+      "message": "Tap here anytime to switch between English and Khmer."
+    },
+    "notification": {
+      "title": "Notifications",
+      "message": "New alerts and updates show up here."
+    },
+    "profile": {
+      "title": "Your profile",
+      "message": "Open your profile and settings from here."
+    },
+    "done": {
+      "title": "You're all set 🎉",
+      "message": "That's the tour. Time to close some deals!"
+    },
+    "cta": {
+      "start": "Start tour",
+      "next": "Next",
+      "skip_step": "Skip",
+      "skip_tour": "Skip tour",
+      "finish": "Done",
+      "dismiss": "Dismiss"
+    },
+    "resume_hint": "Resume tour"
+  }
+
+}

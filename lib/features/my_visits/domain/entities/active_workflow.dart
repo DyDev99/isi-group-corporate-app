@@ -1,0 +1,3 @@
+class ActiveWorkflow {
+  const ActiveWorkflow();
+}
