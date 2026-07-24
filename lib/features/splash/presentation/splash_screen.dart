@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
                     // If Vibe.cta is a light-colored gradient, it won't show on white.
                     // Change the color/gradient to something dark (e.g., Colors.black)
                     const Text(
-                      'ISI STEEL',
+                      'ISI Corporate App',
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.w900,
@@ -103,16 +103,7 @@ class _SplashScreenState extends State<SplashScreen>
                         color: Colors.black, // Explicitly set to black
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Sales Mobile',
-                      style: TextStyle(
-                        color: Colors.grey, // Changed from Vibe.muted
-                        fontSize: 13,
-                        letterSpacing: 1.5,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                 
                   ],
                 ),
               ),

@@ -16,9 +16,6 @@ import 'package:isi_group_corporate_app/routes/app_routes.dart';
 // Screens
 import 'package:isi_group_corporate_app/features/splash/presentation/splash_screen.dart';
 import 'package:isi_group_corporate_app/features/shell/presentation/main_shell.dart';
-import 'package:isi_group_corporate_app/features/home/presentation/screens/home_screen.dart';
-import 'package:isi_group_corporate_app/features/home/presentation/bloc/home_cubit.dart';
-import 'package:isi_group_corporate_app/features/home/data/home_repository.dart';
 
 import 'package:isi_group_corporate_app/features/authentication/presentation/screens/login_screen.dart';
 
@@ -42,14 +39,7 @@ class AppPages {
       // Deep-link routes into a single MainShell tab (see Static's doc
       // comment) — each provides its own bloc/cubit since these are reached
       // directly, not via MainShell's IndexedStack.
-      case Static.home:
-        return _page(
-          BlocProvider(
-            create: (_) => HomeCubit(const HomeRepositoryImpl())..load(),
-            child: const HomeScreen(userName: 'there'),
-          ),
-          settings,
-        );
+ 
 
      
 

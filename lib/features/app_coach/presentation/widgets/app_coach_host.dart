@@ -8,7 +8,6 @@ import 'package:isi_group_corporate_app/features/app_coach/presentation/blocs/ap
 import 'package:isi_group_corporate_app/features/app_coach/presentation/services/coach_keys.dart';
 import 'package:isi_group_corporate_app/features/app_coach/presentation/widgets/assistant_overlay.dart';
 import 'package:isi_group_corporate_app/features/app_coach/presentation/widgets/floating_assistant_button.dart';
-import 'package:isi_group_corporate_app/features/home/presentation/bloc/home_cubit.dart';
 
 /// Mounts the coach layer over the app shell.
 ///
@@ -26,13 +25,11 @@ class AppCoachHost extends StatefulWidget {
 
 class _AppCoachHostState extends State<AppCoachHost> {
   final AppCoachBloc _bloc = sl<AppCoachBloc>();
-  final ShellTabController _tabs = sl<ShellTabController>();
   String? _shownStepId;
 
   @override
   void initState() {
     super.initState();
-    _tabs.addListener(_onTabChanged);
     // Guest-first onboarding means the coach must NOT run for guests browsing
     // the shell. But a first-time user who actually signs in *should* get the
     // walkthrough — so start it only when authenticated. The bloc itself
@@ -49,24 +46,10 @@ class _AppCoachHostState extends State<AppCoachHost> {
 
   @override
   void dispose() {
-    _tabs.removeListener(_onTabChanged);
     super.dispose();
   }
 
-  /// A tab switch is a real user action — report it so the matching step can
-  /// advance. Programmatic returns to Home emit [CoachAction.openHome], which no
-  /// step waits for, so they're harmless.
-  void _onTabChanged() {
-    const map = <int, CoachAction>{
-      ShellTab.home: CoachAction.openHome,
-      ShellTab.customers: CoachAction.openCustomers,
-      ShellTab.myVisits: CoachAction.openMyVisits,
-      ShellTab.leads: CoachAction.openMyLeads,
-      ShellTab.orders: CoachAction.openOrders,
-    };
-    final action = map[_tabs.value];
-    if (action != null) _bloc.add(CoachActionTriggered(action));
-  }
+
 
   /// When a step becomes active, make sure its anchor is visible: bring the
   /// shell back to Home (all anchors live there) and scroll the target into
@@ -76,12 +59,7 @@ class _AppCoachHostState extends State<AppCoachHost> {
     if (step == null || step.id == _shownStepId) return;
     _shownStepId = step.id;
 
-    if (step.autoNavigateHome && _tabs.value != ShellTab.home) {
-      // Let the user glimpse the tab they opened before easing back Home.
-      Future.delayed(const Duration(milliseconds: 650), () {
-        if (mounted) _tabs.goTo(ShellTab.home);
-      });
-    }
+ 
 
     final id = step.targetKeyId;
     if (id == null) return;

@@ -18,9 +18,8 @@ import 'package:isi_group_corporate_app/core/network/network_info.dart';
 import 'package:isi_group_corporate_app/core/session/session_manager.dart';
 import 'package:isi_group_corporate_app/features/app_coach/app_coach_injection.dart';
 import 'package:isi_group_corporate_app/features/authentication/authentication_injection.dart';
+import 'package:isi_group_corporate_app/features/hr_assistant/hr_assistant_injection.dart';
 import 'package:isi_group_corporate_app/features/localization/presentation/bloc/language_cubit.dart';
-import 'package:isi_group_corporate_app/features/home/presentation/bloc/home_cubit.dart';
-import 'package:isi_group_corporate_app/features/home/home_injection.dart';
 import 'package:isi_group_corporate_app/features/profile/profile_injection.dart';
 import 'package:isi_group_corporate_app/features/notification/notification_injection.dart';
 import 'package:isi_group_corporate_app/features/settings/theme/theme_injection.dart';
@@ -85,14 +84,13 @@ Future<void> initDependencies() async {
     () => AppPreferencesImpl(HiveService.cacheBox),
   );
   sl.registerLazySingleton<LanguageCubit>(() => LanguageCubit(sl()));
-  sl.registerLazySingleton<ShellTabController>(() => ShellTabController());
   registerThemeFeature(sl);
 
   // ── Features ───────────────────────────────────────────────────────
   registerAuthFeature(sl);
-  registerHomeFeature(sl);
   registerProfileFeature(sl);
   registerNotificationFeature(sl);
+  registerHrAssistantFeature(sl);
   registerAppCoachFeature(sl);
 }
 

@@ -156,7 +156,9 @@ class ConnectivityServiceImpl implements ConnectivityService {
       },
     );
 
-    await refresh();
+    // Do not block first-frame rendering on a network probe. The app should
+    // start offline-ready and let connectivity refresh in the background.
+    unawaited(refresh());
   }
 
   void _onInterfaceChanged(List<ConnectivityResult> results) {
