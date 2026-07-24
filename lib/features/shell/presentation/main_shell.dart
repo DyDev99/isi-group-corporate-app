@@ -1,16 +1,26 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:isi_group_corporate_app/core/auth/auth_guard.dart';
 import 'package:isi_group_corporate_app/core/di/injection_container.dart';
 import 'package:isi_group_corporate_app/core/localization/localized_builder.dart';
+
+// Screens & Sheet Imports
 import 'package:isi_group_corporate_app/features/directory/presentation/screens/directory_screen.dart';
 import 'package:isi_group_corporate_app/features/hr_assistant/hr_assistant_scope.dart';
 import 'package:isi_group_corporate_app/features/hubs/presentation/bloc/cubit/resumable_visit_cubit.dart';
 import 'package:isi_group_corporate_app/features/hubs/presentation/screens/hubs_screen.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/bloc/profile_cubit.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:isi_group_corporate_app/features/time_attendance/presentation/screens/time_attendance_screen.dart';
+import 'package:isi_group_corporate_app/features/leave_request/presentation/screens/leave_request_screen.dart';
+import 'package:isi_group_corporate_app/features/expenses/presentation/screens/expenses_screen.dart';
+import 'package:isi_group_corporate_app/features/meeting_rooms/presentation/screens/meeting_rooms_screen.dart';
+import 'package:isi_group_corporate_app/features/performance/presentation/screens/performance_screen.dart';
+import 'package:isi_group_corporate_app/features/digital_docs/presentation/screens/digital_docs_screen.dart';
+import 'package:isi_group_corporate_app/features/it_help/presentation/screens/it_help_screen.dart';
+import 'package:isi_group_corporate_app/features/shell/presentation/widgets/fast_actions/edit_fast_actions_bottom_sheet.dart';
+import 'package:isi_group_corporate_app/features/travel/presentation/screens/travel_screen.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -21,6 +31,18 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
+
+  // Complete state with all 10 unique Fast Action tools
+  List<FastActionTool> _userFastActions = [
+    FastActionTool(id: 'leave', title: 'Apply Leave', icon: Icons.calendar_month_outlined, isEnabled: true),
+    FastActionTool(id: 'expense', title: 'Expense', icon: Icons.receipt_long_outlined, isEnabled: true),
+    FastActionTool(id: 'room', title: 'Book Room', icon: Icons.local_cafe_outlined, isEnabled: true),
+    FastActionTool(id: 'it_help', title: 'IT Help', icon: Icons.support_outlined, isEnabled: true),
+    FastActionTool(id: 'performance', title: 'Performance', icon: Icons.percent_rounded, isEnabled: true),
+    FastActionTool(id: 'docs', title: 'Digital Docs', icon: Icons.description_outlined, isEnabled: true),
+    FastActionTool(id: 'time_attendance', title: 'Attendance', icon: Icons.access_time_filled_outlined, isEnabled: true),
+    FastActionTool(id: 'travel', title: 'Travel', icon: Icons.airplane_ticket_sharp, isEnabled: true),
+  ];
 
   void _handleNavTap(int index) {
     setState(() => _currentIndex = index);
@@ -38,7 +60,50 @@ class _MainShellState extends State<MainShell> {
   }
 
   void _onEditFastActions() {
-    // TODO: Open modal or navigation to edit/reorder fast actions
+    EditFastActionsBottomSheet.show(
+      context,
+      currentTools: _userFastActions,
+      onSaved: (updatedTools) {
+        setState(() {
+          _userFastActions = List.from(updatedTools);
+        });
+      },
+    );
+  }
+
+  void _navigateToTool(String toolId) {
+    Widget? targetScreen;
+
+    switch (toolId) {
+      case 'leave':
+        targetScreen = const LeaveRequestScreen();
+        break;
+      case 'expense':
+        targetScreen = const ExpensesScreen();
+        break;
+      case 'room':
+        targetScreen = const MeetingRoomsScreen();
+        break;
+      case 'it_help':
+        targetScreen = const ITHelpScreen();
+        break;
+      case 'performance':
+        targetScreen = const PerformanceScreen();
+        break;
+      case 'docs':
+        targetScreen = const DigitalDocsScreen();
+        break;
+      case 'time_attendance':
+        targetScreen = const TimeAttendanceScreen();
+        break;
+      case 'travel':
+        targetScreen = const TravelScreen();
+        break;
+    }
+
+    if (targetScreen != null) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => targetScreen!));
+    }
   }
 
   @override
@@ -63,12 +128,12 @@ class _MainShellState extends State<MainShell> {
                             )
                           : Stack(
                               children: [
-                                // 1. Subtle Grid Pattern Background Layer
+                                // 1. Grid Background
                                 const Positioned.fill(
                                   child: CleanGridBackground(),
                                 ),
 
-                                // 2. Curved Dark Blue Header Background
+                                // 2. Header Gradient Card
                                 Positioned(
                                   top: 0,
                                   left: 0,
@@ -85,13 +150,13 @@ class _MainShellState extends State<MainShell> {
                                   ),
                                 ),
 
-                                // 3. Scrollable Content
+                                // 3. Main Content
                                 Positioned.fill(
                                   child: ListView(
                                     physics: const BouncingScrollPhysics(),
                                     padding: EdgeInsets.only(top: 60.h, bottom: 120.h),
                                     children: [
-                                      // Top Header User Info Row
+                                      // Top Header User Info
                                       Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                                         child: Row(
@@ -158,7 +223,7 @@ class _MainShellState extends State<MainShell> {
 
                                       SizedBox(height: 24.h),
 
-                                      // SECTION 1: Fast Actions (Header with Edit Button)
+                                      // SECTION 1: Dynamic Fast Actions
                                       Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                                         child: Row(
@@ -198,7 +263,12 @@ class _MainShellState extends State<MainShell> {
                                         ),
                                       ),
                                       SizedBox(height: 12.h),
-                                      const FastActionsRow(),
+
+                                      // Dynamic Fast Actions List
+                                      FastActionsRow(
+                                        tools: _userFastActions.where((tool) => tool.isEnabled).toList(),
+                                        onToolTap: (toolId) => _navigateToTool(toolId),
+                                      ),
 
                                       SizedBox(height: 24.h),
 
@@ -274,6 +344,99 @@ class _MainShellState extends State<MainShell> {
           currentIndex: _currentIndex,
           onTap: _handleNavTap,
         ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// DYNAMIC FAST ACTIONS ROW
+// ============================================================================
+
+class FastActionsRow extends StatelessWidget {
+  final List<FastActionTool> tools;
+  final Function(String toolId) onToolTap;
+
+  const FastActionsRow({
+    super.key,
+    required this.tools,
+    required this.onToolTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (tools.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Container(
+          padding: EdgeInsets.all(16.r),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8FAFC),
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Center(
+            child: Text(
+              'No fast actions enabled. Tap Edit to add tools.',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: const Color(0xFF64748B),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child: Row(
+        children: tools.map((tool) {
+          return Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: GestureDetector(
+              onTap: () => onToolTap(tool.id),
+              behavior: HitTestBehavior.opaque,
+              child: Column(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 68.r,
+                    height: 68.r,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      tool.icon,
+                      color: const Color(0xFF475569),
+                      size: 26.sp,
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    tool.title,
+                    style: TextStyle(
+                      color: const Color(0xFF475569),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -489,74 +652,6 @@ class UserPerformanceCardWidget extends StatelessWidget {
 }
 
 // ============================================================================
-// FAST ACTIONS HORIZONTAL ROW
-// ============================================================================
-
-class FastActionsRow extends StatelessWidget {
-  const FastActionsRow({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: Row(
-        children: [
-          _buildActionItem(Icons.calendar_month_outlined, 'Apply Leave'),
-          SizedBox(width: 16.w),
-          _buildActionItem(Icons.receipt_long_outlined, 'Expense'),
-          SizedBox(width: 16.w),
-          _buildActionItem(Icons.local_cafe_outlined, 'Book Room'),
-          SizedBox(width: 16.w),
-          _buildActionItem(Icons.support_outlined, 'IT Help'),
-          SizedBox(width: 16.w),
-          _buildActionItem(Icons.percent_rounded, 'Performance'),
-          SizedBox(width: 16.w),
-          _buildActionItem(Icons.airplane_ticket_outlined, 'Travel'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionItem(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 68.r,
-          height: 68.r,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20.r),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF0F172A).withValues(alpha: 0.04),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Icon(
-            icon,
-            color: const Color(0xFF475569),
-            size: 26.sp,
-          ),
-        ),
-        SizedBox(height: 8.h),
-        Text(
-          label,
-          style: TextStyle(
-            color: const Color(0xFF475569),
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ============================================================================
 // YOUR FOCUS GRID
 // ============================================================================
 
@@ -574,130 +669,144 @@ class YourFocusGrid extends StatelessWidget {
       childAspectRatio: 1.15,
       children: [
         _buildFocusCard(
+          context,
           icon: Icons.location_on_outlined,
           badgeText: 'CHECK IN',
           title: 'Attendance',
           value: 'Not Started',
           hasDot: true,
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TimeAttendanceScreen())),
         ),
         _buildFocusCard(
+          context,
           icon: Icons.calendar_today_outlined,
           badgeText: 'APPLY',
           title: 'Leave Balance',
           value: '12 Days',
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const LeaveRequestScreen())),
         ),
         _buildFocusCard(
+          context,
           icon: Icons.check_circle_outline_rounded,
           badgeText: 'REVIEW',
           title: 'Approvals',
           value: '3 Pending',
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ExpensesScreen())),
         ),
         _buildFocusCard(
+          context,
           icon: Icons.description_outlined,
           badgeText: 'VIEW',
           title: 'Payslip',
           value: 'July Ready',
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DigitalDocsScreen())),
         ),
       ],
     );
   }
 
-  Widget _buildFocusCard({
+  Widget _buildFocusCard(
+    BuildContext context, {
     required IconData icon,
     required String badgeText,
     required String title,
     required String value,
+    required VoidCallback onTap,
     bool hasDot = false,
   }) {
-    return Container(
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.04),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 38.r,
-                height: 38.r,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(12.r),
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: EdgeInsets.all(16.r),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 38.r,
+                  height: 38.r,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: const Color(0xFF475569),
+                    size: 20.sp,
+                  ),
                 ),
-                child: Icon(
-                  icon,
-                  color: const Color(0xFF475569),
-                  size: 20.sp,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEFF4F9),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Text(
+                    badgeText,
+                    style: TextStyle(
+                      color: const Color(0xFF64748B),
+                      fontSize: 9.sp,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFF4F9),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Text(
-                  badgeText,
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
                   style: TextStyle(
                     color: const Color(0xFF64748B),
-                    fontSize: 9.sp,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: const Color(0xFF64748B),
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              Row(
-                children: [
-                  if (hasDot) ...[
-                    Container(
-                      width: 6.w,
-                      height: 6.w,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF94A3B8),
-                        shape: BoxShape.circle,
+                SizedBox(height: 4.h),
+                Row(
+                  children: [
+                    if (hasDot) ...[
+                      Container(
+                        width: 6.w,
+                        height: 6.w,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF94A3B8),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                    ],
+                    Text(
+                      value,
+                      style: TextStyle(
+                        color: const Color(0xFF0F172A),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(width: 6.w),
                   ],
-                  Text(
-                    value,
-                    style: TextStyle(
-                      color: const Color(0xFF0F172A),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -81,15 +81,15 @@ class _SplashScreenState extends State<SplashScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      'assets/logos/isi_steel_logo.png',
-                      width: 360,
-                      height: 360,
+                      'assets/logos/isi_corporate_app_logo.png',
+                      width: 200,
+                      height: 200,
                       fit: BoxFit.contain,
                       errorBuilder: (_, __, ___) => Container(
                           // ... your existing code
                           ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
 
                     // 3. IMPORTANT: Update the text color here
                     // If Vibe.cta is a light-colored gradient, it won't show on white.

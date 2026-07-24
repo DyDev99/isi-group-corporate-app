@@ -1,58 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+// Feature Screen Imports
 import 'package:isi_group_corporate_app/features/directory/presentation/screens/directory_screen.dart';
+import 'package:isi_group_corporate_app/features/time_attendance/presentation/screens/time_attendance_screen.dart';
+import 'package:isi_group_corporate_app/features/leave_request/presentation/screens/leave_request_screen.dart';
+import 'package:isi_group_corporate_app/features/expenses/presentation/screens/expenses_screen.dart';
+import 'package:isi_group_corporate_app/features/meeting_rooms/presentation/screens/meeting_rooms_screen.dart';
+import 'package:isi_group_corporate_app/features/rewards/presentation/screens/rewards_screen.dart';
+import 'package:isi_group_corporate_app/features/learning_center/presentation/screens/learning_center_screen.dart';
+import 'package:isi_group_corporate_app/features/knowledge_base/presentation/screens/knowledge_base_screen.dart';
+import 'package:isi_group_corporate_app/features/digital_docs/presentation/screens/digital_docs_screen.dart';
+import 'package:isi_group_corporate_app/features/performance/presentation/screens/performance_screen.dart';
+import 'package:isi_group_corporate_app/features/travel/presentation/screens/travel_screen.dart';
 
 class AppHubScreen extends StatelessWidget {
   const AppHubScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // List of grid tools with title, icon, icon color, and background color
+    // Complete grid of tools with custom color schemes and route handlers
     final List<Map<String, dynamic>> hubItems = [
       {
         'title': 'Time & Attendance',
         'icon': Icons.access_time_rounded,
         'iconColor': const Color(0xFF2563EB),
         'bgColor': const Color(0xFFEFF6FF),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TimeAttendanceScreen()),
+          );
+        },
       },
       {
         'title': 'Leave Request',
         'icon': Icons.calendar_month_rounded,
         'iconColor': const Color(0xFF059669),
         'bgColor': const Color(0xFFECFDF5),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LeaveRequestScreen()),
+          );
+        },
       },
       {
         'title': 'Expenses',
         'icon': Icons.credit_card_rounded,
         'iconColor': const Color(0xFFD97706),
         'bgColor': const Color(0xFFFFFBEB),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ExpensesScreen()),
+          );
+        },
       },
       {
         'title': 'Learning Center',
         'icon': Icons.school_rounded,
         'iconColor': const Color(0xFF9333EA),
         'bgColor': const Color(0xFFF3E8FF),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LearningCenterScreen()),
+          );
+        },
       },
       {
         'title': 'Knowledge Base',
         'icon': Icons.menu_book_rounded,
         'iconColor': const Color(0xFF4F46E5),
         'bgColor': const Color(0xFFEEF2FF),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const KnowledgeBaseScreen()),
+          );
+        },
       },
       {
-        'title': 'Company Directory',
-        'icon': Icons.people_outline_rounded,
+        'title': 'Travel',
+        'icon': Icons.airplane_ticket_sharp,
         'iconColor': const Color(0xFF0891B2),
         'bgColor': const Color(0xFFECFEFF),
         'onTap': () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const DirectoryScreen()),
+            MaterialPageRoute(builder: (context) => const TravelScreen()),
           );
         },
       },
@@ -61,28 +98,48 @@ class AppHubScreen extends StatelessWidget {
         'icon': Icons.workspace_premium_outlined,
         'iconColor': const Color(0xFFE11D48),
         'bgColor': const Color(0xFFFFE4E6),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const RewardsScreen()),
+          );
+        },
       },
       {
         'title': 'Digital Docs',
         'icon': Icons.description_outlined,
         'iconColor': const Color(0xFF475569),
         'bgColor': const Color(0xFFF1F5F9),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DigitalDocsScreen()),
+          );
+        },
       },
       {
         'title': 'Performance',
         'icon': Icons.work_outline_rounded,
         'iconColor': const Color(0xFF0D9488),
         'bgColor': const Color(0xFFCCFBF1),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const PerformanceScreen()),
+          );
+        },
       },
       {
         'title': 'Meeting Rooms',
         'icon': Icons.edit_calendar_outlined,
         'iconColor': const Color(0xFFEA580C),
         'bgColor': const Color(0xFFFFEDD5),
-        'onTap': () {},
+        'onTap': () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MeetingRoomsScreen()),
+          );
+        },
       },
     ];
 
@@ -133,8 +190,8 @@ class AppHubScreen extends StatelessWidget {
                       ),
                       Container(
                         padding: EdgeInsets.all(10.r),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF1F5F9),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFF1F5F9),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -188,7 +245,7 @@ class AppHubScreen extends StatelessWidget {
 
                 SizedBox(height: 16.h),
 
-                // Grid of Modules Directly On Background
+                // Grid of Modules
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: GridView.builder(
