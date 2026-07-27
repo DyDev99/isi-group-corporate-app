@@ -20,6 +20,15 @@ dependencies:
   equatable: ^2.0.7
   get_it: ^7.6.0
   flutter_secure_storage: ^9.0.0
+  local_auth: ^2.3.0
+  # Endorsed federated implementations. Declared explicitly (not left
+  # transitive) because biometric_service.dart imports AndroidAuthMessages /
+  # IOSAuthMessages and LocalAuthException directly to localize the native
+  # dialogs — depending on a transitive package's API is how a silent break
+  # arrives on the next `pub upgrade`.
+  local_auth_android: ^1.0.46
+  local_auth_darwin: ^1.4.0
+  local_auth_platform_interface: ^1.0.10
   dio: ^5.4.0
   connectivity_plus: ^6.0.0
   bloc_concurrency: ^0.2.5

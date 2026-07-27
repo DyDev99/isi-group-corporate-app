@@ -26,6 +26,11 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- Required by local_auth: iOS terminates the app on the first Face ID
+	     call if this key is absent. Shown verbatim in the system permission
+	     alert, so it is user-facing copy. -->
+	<key>NSFaceIDUsageDescription</key>
+	<string>ISI Corporate uses Face ID to unlock your account. You can always sign in with your password instead.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

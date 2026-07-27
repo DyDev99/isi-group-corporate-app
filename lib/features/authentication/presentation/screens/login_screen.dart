@@ -10,6 +10,9 @@ import 'package:isi_group_corporate_app/shared/widgets/aurora_background.dart';
 import 'package:isi_group_corporate_app/shared/widgets/glass_card.dart';
 import 'package:isi_group_corporate_app/features/authentication/presentation/widgets/login/gradient_button.dart';
 import 'package:isi_group_corporate_app/features/authentication/presentation/widgets/forgot_password/identifier_field.dart';
+import 'package:isi_group_corporate_app/core/security/biometric/authentication_reason.dart';
+import 'package:isi_group_corporate_app/features/authentication/presentation/widgets/login/biometric_unlock_button.dart';
+import 'package:isi_group_corporate_app/shared/widgets/biometric/biometric_onboarding_flow.dart';
 import 'package:isi_group_corporate_app/features/authentication/presentation/widgets/login/status_pill.dart';
 import 'package:isi_group_corporate_app/features/authentication/presentation/widgets/login/vibe_field.dart';
 import 'package:isi_group_corporate_app/routes/app_routes.dart';
@@ -34,10 +37,35 @@ class _LoginScreenState extends State<LoginScreen> {
   final _password = TextEditingController();
   bool _obscure = true;
 
+  /// One-shot latch: the biometric prompt is raised at most once
+  /// automatically. After that it is the user's call via the button, so a
+  /// cancelled prompt can never re-open itself in a loop.
+  bool _autoPrompted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // If we arrived here with a held session (biometric unlock is on), offer
+    // the prompt straight away rather than making the user reach for it.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _autoPrompt());
+  }
+
   @override
   void dispose() {
     _password.dispose();
     super.dispose();
+  }
+
+  void _autoPrompt() {
+    if (!mounted || _autoPrompted) return;
+    final state = context.read<AuthBloc>().state;
+    if (state is! AuthBiometricLockedState || !state.canUseBiometrics) return;
+    _autoPrompted = true;
+    context.read<AuthBloc>().add(
+          BiometricUnlockRequested(
+            copy: buildPromptCopy(AuthenticationReason.login),
+          ),
+        );
   }
 
   void _submit() {
@@ -65,7 +93,32 @@ class _LoginScreenState extends State<LoginScreen> {
     if (s is AuthLoadingState) return AuthVibeStatus.verifying;
     if (s is AuthFailureState) return AuthVibeStatus.error;
     if (s is AuthenticatedState) return AuthVibeStatus.success;
+    // A failed/cancelled biometric attempt is surfaced on the same pill, with
+    // the form still right below it — informative, never blocking.
+    if (s is AuthBiometricLockedState && s.noticeKey != null) {
+      return AuthVibeStatus.error;
+    }
     return AuthVibeStatus.idle;
+  }
+
+  /// Copy for the status pill. Biometric states carry a localization *key*
+  /// (the bloc never holds display text), so it is resolved here.
+  String? _messageFor(AuthState s) => switch (s) {
+        AuthFailureState(message: final m) => m,
+        AuthBiometricLockedState(noticeKey: final k) => k?.tr,
+        _ => null,
+      };
+
+  /// This screen owns its own post-login transition (no global auth listener).
+  ///
+  /// Deliberately does **not** offer to enable biometrics here. Enabling is a
+  /// five-step onboarding flow with an OS verification step, and it has one
+  /// home: Profile → Password & Security. A second, lighter entry point on the
+  /// login screen would be a second way to reach a security control, and the
+  /// two would drift.
+  void _onAuthenticated() {
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(Static.main, (route) => false);
   }
 
   @override
@@ -76,68 +129,66 @@ class _LoginScreenState extends State<LoginScreen> {
     // "Login Required" prompt over the shell.
     return BlocListener<AuthBloc, AuthState>(
       listenWhen: (prev, curr) => curr is AuthenticatedState,
-      listener: (context, state) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Static.main, (route) => false);
-      },
+      listener: (context, state) => _onAuthenticated(),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Stack(
           children: [
             const Positioned.fill(child: AuroraBackground()),
-          SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 16),
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 420),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Centered Header Section (Logo, Title, Subtitle)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const _Brand(),
-                                const SizedBox(height: 28),
-                                Text(
-                                  'auth.welcome_back'.tr,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w900,
-                                    height: 1.1,
+            SafeArea(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 420),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              // Centered Header Section (Logo, Title, Subtitle)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const _Brand(),
+                                  const SizedBox(height: 28),
+                                  Text(
+                                    'auth.welcome_back'.tr,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w900,
+                                      height: 1.1,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'auth.sign_in_subtitle'.tr,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: context.appColors.textSecondary,
-                                      fontSize: 15),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 24),
-                            GlassCard(child: _form()),
-                          ],
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'auth.sign_in_subtitle'.tr,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: context.appColors.textSecondary,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 24),
+                              GlassCard(child: _form()),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                // Versioning signature aligned perfectly at the bottom edge
-                const VersionFooter(),
-              ],
+                  // Versioning signature aligned perfectly at the bottom edge
+                  const VersionFooter(),
+                ],
+              ),
             ),
-          ),
           ],
         ),
       ),
@@ -182,7 +233,8 @@ class _LoginScreenState extends State<LoginScreen> {
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () => Navigator.of(context).pushNamed(Static.forgotPassword),
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(Static.forgotPassword),
               child: Text('auth.forgot_password'.tr,
                   style: TextStyle(
                       color: context.appColors.info,
@@ -193,17 +245,23 @@ class _LoginScreenState extends State<LoginScreen> {
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               final status = _statusFor(state);
+              // The gate is decided in the domain and carried on the state —
+              // this widget only renders it, and the credential button above
+              // is never conditional on it.
+              final offerBiometrics =
+                  state is AuthBiometricLockedState && state.canUseBiometrics;
               return Column(
                 children: [
-                  StatusPill(
-                    status: status,
-                    message: state is AuthFailureState ? state.message : null,
-                  ),
+                  StatusPill(status: status, message: _messageFor(state)),
                   GradientButton(
                     label: "auth.lets_go".tr,
                     loading: status == AuthVibeStatus.verifying,
                     onPressed: _submit,
                   ),
+                  if (offerBiometrics)
+                    BiometricUnlockButton(
+                      enabled: status != AuthVibeStatus.verifying,
+                    ),
                 ],
               );
             },

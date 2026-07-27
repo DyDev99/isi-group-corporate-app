@@ -57,6 +57,18 @@ kotlin {
     }
 }
 
+dependencies {
+    // Required by the biometric feature, declared explicitly rather than
+    // relied on transitively:
+    //  - `res/values/styles.xml` sets LaunchTheme/NormalTheme to
+    //    Theme.AppCompat.DayNight.NoActionBar, which does not resolve without
+    //    appcompat on the compile classpath — the build fails outright.
+    //  - androidx.biometric (pulled in by local_auth_android) happens to bring
+    //    appcompat along today, but a resource this build cannot compile
+    //    without must not depend on another package's POM staying the same.
+    implementation("androidx.appcompat:appcompat:1.7.0")
+}
+
 flutter {
     source = "../.."
 }

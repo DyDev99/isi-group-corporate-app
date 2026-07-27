@@ -3,8 +3,7 @@ import 'package:isi_group_corporate_app/features/digital_docs/presentation/scree
 import 'package:isi_group_corporate_app/features/performance/presentation/screens/performance_screen.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/screens/company_policies_screen.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/screens/payroll_payslip_screen.dart';
-import 'package:isi_group_corporate_app/features/profile/presentation/screens/security_privacy_screen.dart';
-import 'package:isi_group_corporate_app/features/settings/theme/presentation/screens/settings_screen.dart';
+import 'package:isi_group_corporate_app/features/profile/presentation/screens/password_security_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,7 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isDarkMode = false;
 
   static const String _profileImageUrl =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXJwlpWlgmH8Y2F8bEK1uZUiFoU1ljVJCl8Ag_jJydag&s=10";
+      "https://i1.sndcdn.com/artworks-mGaisx4NJarpEeDh-NorasQ-t500x500.jpg";
 
   void _openFullScreenViewer(BuildContext context, String imageUrl) {
     Navigator.of(context).push(
@@ -90,14 +89,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             shadowColor: const Color(0xFF0F172A).withValues(alpha: 0.12),
                             onSelected: (String value) {
                               switch (value) {
-                                case 'theme':
-                                  // TODO: Handle Theme option
-                                  break;
+                           
                                 case 'profile_detail':
                                   // TODO: Handle View Profile Detail
-                                  break;
-                                case 'cache':
-                                  // TODO: Handle Cache Data
                                   break;
                                 case 'security':
                                   Navigator.of(context).push(
@@ -112,23 +106,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }
                             },
                             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                              _buildSettingsMenuItem(
-                                value: 'theme',
-                                icon: Icons.palette_outlined,
-                                title: 'Theme',
-                              ),
-                              const PopupMenuDivider(height: 1),
+                      
                               _buildSettingsMenuItem(
                                 value: 'profile_detail',
                                 icon: Icons.person_outline_rounded,
                                 title: 'View Profile Detail',
                               ),
-                              const PopupMenuDivider(height: 1),
-                              _buildSettingsMenuItem(
-                                value: 'cache',
-                                icon: Icons.cleaning_services_outlined,
-                                title: 'Cache Data',
-                              ),
+                            
                               const PopupMenuDivider(height: 1),
                               _buildSettingsMenuItem(
                                 value: 'security',
@@ -436,7 +420,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         _buildListTile(
                           icon: Icons.shield_outlined,
-                          title: "Security & Privacy",
+                          title: "Password & Security",
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(

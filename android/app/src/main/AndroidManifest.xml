@@ -1,5 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Biometric unlock (local_auth). USE_BIOMETRIC supersedes the deprecated
+         USE_FINGERPRINT; both are normal (install-time) permissions, so no
+         runtime prompt is shown. Declared, not required: the app is fully
+         usable via the credential form on devices without a sensor, so this is
+         deliberately NOT paired with a <uses-feature ... required="true">. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
         android:label="ISI Corporate App"

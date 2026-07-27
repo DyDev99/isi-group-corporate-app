@@ -22,6 +22,11 @@ abstract interface class AppPreferences {
   /// Persisted theme-preferences schema version (future migrations).
   int get themeVersion;
   Future<void> setThemeVersion(int version);
+
+  // NOTE: biometric settings deliberately do NOT live here. They are a
+  // security control, so they belong in hardware-backed secure storage —
+  // see `core/security/biometric/biometric_secure_store.dart` and
+  // `SECURITY.md` §3. Hive is for non-sensitive settings only.
 }
 
 class AppPreferencesImpl implements AppPreferences {
@@ -58,8 +63,7 @@ class AppPreferencesImpl implements AppPreferences {
   String? get lastThemeMode => _box.get(_kLastThemeMode) as String?;
 
   @override
-  Future<void> setLastThemeMode(String mode) =>
-      _box.put(_kLastThemeMode, mode);
+  Future<void> setLastThemeMode(String mode) => _box.put(_kLastThemeMode, mode);
 
   @override
   int get themeVersion => _box.get(_kThemeVersion, defaultValue: 1) as int;

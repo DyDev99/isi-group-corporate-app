@@ -16,6 +16,7 @@ import 'package:isi_group_corporate_app/features/directory/directory_injection.d
 import 'package:isi_group_corporate_app/core/network/connectivity_cubit.dart';
 import 'package:isi_group_corporate_app/core/network/connectivity_service.dart';
 import 'package:isi_group_corporate_app/core/network/network_info.dart';
+import 'package:isi_group_corporate_app/core/security/security_injection.dart';
 import 'package:isi_group_corporate_app/core/session/session_manager.dart';
 import 'package:isi_group_corporate_app/features/app_coach/app_coach_injection.dart';
 import 'package:isi_group_corporate_app/features/authentication/authentication_injection.dart';
@@ -86,6 +87,13 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<LanguageCubit>(() => LanguageCubit(sl()));
   registerThemeFeature(sl);
+
+  // ── Security infrastructure (SECURITY.md §2) ───────────────────────
+  // Registered before the feature block: Authentication (biometric login) and
+  // Profile (biometric onboarding) both resolve the same BiometricRepository,
+  // so there is exactly one graph and one source of truth for whether
+  // biometrics are enabled.
+  registerSecurityInfrastructure(sl);
 
   // ── Features ───────────────────────────────────────────────────────
   registerAuthFeature(sl);

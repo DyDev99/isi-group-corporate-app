@@ -7,7 +7,7 @@
     "password": "Password",
     "forgot_password": "Forgot Password?",
     "email": "Email",
-    "phone_number":"Phone Number", 
+    "phone_number": "Phone Number",
     "send_reset_link": "Continue",
     "resend_code_in": "Resend code in {seconds}s",
     "resend_code": "Resend Code",
@@ -17,7 +17,6 @@
     "verify": "Verify",
     "invalid_code": "That code isn't right. Please try again.",
     "otp_incomplete": "Please enter the full 6-digit code",
-
     "forgot_password_title": "Reset Password",
     "forgot_password_subtitle": "Enter your email address or phone number to receive a verification code.",
     "check_your_inbox": "Check Your Inbox",
@@ -50,9 +49,103 @@
       "required": "This field is required",
       "invalid_cred": "Incorrect username or password. Please try again.",
       "session_expired": "Session expired. Please log in again."
+    },
+    "biometric": {
+      "modality": {
+        "fingerprint": "Fingerprint",
+        "face": "Face ID"
+      },
+      "unlock_button": "Unlock with biometrics",
+      "validating": "Checking your device…",
+      "privacy_notice": "ISI Corporate never collects or stores your fingerprint or face. Your device keeps it in secure hardware and only tells us yes or no.",
+      "enabled_confirmation": "Biometric authentication enabled.",
+      "disabled_confirmation": "Biometric authentication turned off.",
+      "reason": {
+        "login": "Confirm it’s you to sign in to ISI Corporate.",
+        "enableBiometric": "Confirm it’s you to finish setting up biometric sign-in.",
+        "disableBiometric": "Confirm it’s you to turn off biometric sign-in.",
+        "unlockApp": "Confirm it’s you to unlock ISI Corporate.",
+        "approveSapAction": "Confirm it’s you to approve this action.",
+        "confirmPayment": "Confirm it’s you to authorise this payment.",
+        "viewSecureDocument": "Confirm it’s you to open this confidential document.",
+        "changeSecuritySettings": "Confirm it’s you to change security settings."
+      },
+      "prompt_title": {
+        "login": "Sign in to ISI Corporate",
+        "enableBiometric": "Finish biometric setup",
+        "disableBiometric": "Turn off biometric sign-in",
+        "unlockApp": "Unlock ISI Corporate",
+        "approveSapAction": "Approve action",
+        "confirmPayment": "Authorise payment",
+        "viewSecureDocument": "Open secure document",
+        "changeSecuritySettings": "Change security settings"
+      },
+      "prompt": {
+        "required_title": "Biometric verification required",
+        "credentials_required_title": "Device unlock required"
+      },
+      "setup": {
+        "title": "Secure Your Account",
+        "body": "Protect your ISI Corporate account using your device’s built-in {modality} security.",
+        "benefit_faster": "Sign in faster, without typing your password",
+        "benefit_unlock": "Unlock protected features instantly",
+        "benefit_confirm": "Confirm sensitive operations securely",
+        "benefit_security": "Add a second layer of account security"
+      },
+      "enrollment": {
+        "title": "Set Up {modality}",
+        "body": "To use biometric authentication with ISI Corporate, you must first register your fingerprint or Face ID in your device settings. For your privacy and security, Android and iOS manage biometric enrollment.",
+        "passcode_title": "Set a Screen Lock First",
+        "passcode_body": "Your device needs a PIN, pattern or passcode before it will allow biometric authentication. Set one up, then come back to finish.",
+        "open_settings": "Open Device Settings",
+        "open_app_settings": "Open Settings",
+        "privacy": "Your biometric data stays on your device. ISI Corporate never receives or stores it.",
+        "android_step_open": "Open Settings › Security › Fingerprint & Face",
+        "android_step_enroll": "Register a fingerprint or face",
+        "android_step_passcode": "Open Settings › Security › Screen lock and set a PIN or pattern",
+        "ios_step_open": "Open Settings › Face ID & Passcode",
+        "ios_step_enroll": "Tap \"Set Up Face ID\" or add a fingerprint under Touch ID",
+        "ios_step_passcode": "Open Settings › Face ID & Passcode and turn on Passcode",
+        "step_return": "Return to ISI Corporate — we’ll check automatically",
+        "enrolled": "Biometrics are ready to use on this device.",
+        "notEnrolled": "No fingerprint or face is registered on this device yet.",
+        "deviceNotSecure": "This device has no screen lock, so biometrics cannot be used.",
+        "noHardware": "This device has no biometric sensor.",
+        "unavailable": "The biometric sensor is not available right now."
+      },
+      "verify": {
+        "title": "Verify Your Identity",
+        "body": "To finish setup, please verify your identity using your registered {modality}.",
+        "retry": "Try Again"
+      },
+      "success": {
+        "title": "Biometric Authentication Enabled",
+        "body": "Your device can now securely authenticate with ISI Corporate using {modality}."
+      },
+      "unsupported": {
+        "title": "Biometrics Unavailable",
+        "fallback": "Your password always works — nothing else changes."
+      },
+      "error": {
+        "title": "Verification Failed",
+        "cancelled_title": "Setup Cancelled",
+        "noHardware": "This device does not have a biometric sensor. Please sign in with your password.",
+        "hardwareUnavailable": "The biometric sensor is busy or unavailable right now. Please try again, or sign in with your password.",
+        "notEnrolled": "No fingerprint or face is set up on this device. Register one in your device settings, or sign in with your password.",
+        "passcodeNotSet": "Set a screen lock on your device to use biometric authentication. You can sign in with your password meanwhile.",
+        "temporaryLockout": "Too many attempts. Biometrics are locked for a moment — try again shortly, or sign in with your password.",
+        "permanentLockout": "Biometrics are locked. Unlock your device with your PIN, pattern or passcode first, or sign in with your password.",
+        "userCanceled": "Verification was cancelled. You can try again, or sign in with your password.",
+        "userFallback": "You chose another sign-in method. Please sign in with your password.",
+        "systemCanceled": "Verification was interrupted. Please try again, or sign in with your password.",
+        "notRecognized": "We could not recognise you. Please try again, or sign in with your password.",
+        "authInProgress": "A verification is already in progress. Please wait a moment and try again.",
+        "platformMisconfigured": "Biometric authentication is unavailable in this build. Please sign in with your password.",
+        "unknown": "Biometric authentication is unavailable right now. Please sign in with your password."
+      }
     }
   },
- "common": {
+  "common": {
     "try_again": "Try again",
     "retry": "Retry",
     "good_morning": "Good morning",
@@ -62,9 +155,12 @@
     "offline": "You're offline — showing saved data",
     "generic_error": "Something went wrong. Please try again.",
     "no_connection": "No internet connection. Changes are saved on your device.",
-    "view_details": "View Details"
+    "view_details": "View Details",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "done": "Done",
+    "got_it": "Got it"
   },
-  
   "home": {
     "title": "Home Dashboard",
     "welcome": "Welcome Back",
@@ -83,7 +179,6 @@
       "routes": "Routes",
       "revenue": "Revenue",
       "add_customer": "Add Customer",
-      
       "total_pipeline": "Total Pipeline",
       "new": "New",
       "total_orders": "Total Orders",
@@ -359,8 +454,6 @@
       "followUpDue": "Follow-up Due Reminder"
     }
   },
-
-  
   "add_customer": {
     "steps": {
       "shop_details": "Shop Details",
@@ -409,9 +502,7 @@
     "owner": "Owner",
     "manager": "Manager",
     "buyer": "Buyer"
-  }
-,
-  
+  },
   "profile": {
     "title": "Profile",
     "details": "Details",
@@ -441,9 +532,58 @@
     "updated_success": "Profile updated",
     "updated_failure": "Could not update profile",
     "password_success": "Password updated",
-    "password_failure": "Could not update password"
+    "password_failure": "Could not update password",
+    "security": {
+      "title": "Password & Security",
+      "section_auth": "AUTHENTICATION & CREDENTIALS",
+      "section_knowledge": "SECURITY & PRIVACY KNOWLEDGE HUB",
+      "guide_count": "{count} Guides",
+      "change_password": "Change Account Password",
+      "change_password_subtitle": "Update your master corporate account password",
+      "change_password_hint": "Enter your existing password and choose a new secure password.",
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "confirm_new_password": "Confirm New Password",
+      "update_password": "Update Password",
+      "password_updated": "Password successfully updated.",
+      "fingerprint_title": "Fingerprint Recognition",
+      "fingerprint_subtitle": "Use your fingerprint to unlock the app",
+      "face_title": "Face Detection (Face ID)",
+      "face_subtitle": "Use facial recognition for instant sign-in",
+      "modality_unavailable": "Not available on this device",
+      "no_biometric_hardware": "This device has no biometric sensor, so fingerprint and Face ID sign-in are unavailable. Your password keeps working as normal.",
+      "two_factor_title": "Two-Factor Authentication (2FA)",
+      "two_factor_subtitle": "Require an SMS or authenticator code on new devices",
+      "doc_meta": "Doc ID: {id}  •  Updated: {updated}",
+      "acknowledge": "I Acknowledge & Understand",
+      "docs": {
+        "info_security": {
+          "title": "Corporate Information Security Policy",
+          "category": "Company Standard",
+          "read_time": "5 min read",
+          "body": "1. OVERVIEW & PURPOSE\nThis policy establishes guidelines for maintaining corporate data integrity, securing mobile applications, and safeguarding company credentials.\n\n2. PASSWORD STANDARDS\n• Passwords must be at least 12 characters long.\n• Must include uppercase, lowercase, numbers, and special symbols.\n• Passwords must be changed every 90 days.\n\n3. UNAPPROVED DEVICES\n• Access from rooted or jailbroken devices is strictly prohibited.\n• Local database cache is encrypted via AES-256 (SQLCipher)."
+        },
+        "privacy": {
+          "title": "Employee Data Privacy & Protection Policy",
+          "category": "Privacy & GDPR",
+          "read_time": "4 min read",
+          "body": "1. DATA COLLECTION\nWe collect staff information strictly required for HR administration, payroll processing, and internal communications.\n\n2. BIOMETRIC DATA STORAGE\n• Biometric templates (fingerprint & Face ID) NEVER leave your device.\n• Biometrics are authenticated locally through the OS Secure Enclave / Android Keystore.\n• No biometric raw data or image is ever uploaded to company servers.\n\n3. YOUR RIGHTS\nEmployees may request an export or audit log of their personal system access at any time."
+        },
+        "biometric": {
+          "title": "Biometric & Authentication Guidelines",
+          "category": "Staff Security",
+          "read_time": "3 min read",
+          "body": "1. FINGERPRINT & FACE DETECTION PROTOCOLS\n• Biometric unlock provides fast, secure access to your staff portal.\n• Biometric sign-in must be set up once from Password & Security, and verified with your device.\n• If verification fails, the system always falls back to your master password.\n\n2. SHARED DEVICES\n• Do not register secondary fingerprints or face profiles of non-employees on devices used for corporate applications."
+        },
+        "mobile": {
+          "title": "Mobile Device & App Usage Best Practices",
+          "category": "Knowledge Base",
+          "read_time": "6 min read",
+          "body": "1. NETWORK SECURITY\n• Avoid using public unencrypted Wi-Fi networks when viewing sensitive payroll or client data.\n• Always use the company VPN when working remotely.\n\n2. SCREEN LOCKS\n• Set auto-lock timeout to 5 minutes or less on your mobile device.\n• Never leave unlocked devices unattended in public or open office spaces."
+        }
+      }
+    }
   },
-
   "appearance": {
     "title": "Appearance",
     "theme": "Theme",
@@ -455,7 +595,6 @@
     "dark_hint": "Easier on the eyes in low light",
     "system_hint": "Match your device setting"
   },
-
   "revenue": {
     "title": "Revenue",
     "search_hint": "Search products by name or SKU…",
@@ -485,7 +624,6 @@
       "title": "Couldn't load revenue data"
     }
   },
-
   "coach": {
     "welcome": {
       "title": "Welcome to ISI Steel 👋",
@@ -507,12 +645,10 @@
       "title": "Create a lead",
       "message": "Tap “New lead” to add your first customer."
     },
-    "my_work":{
-      "title":"My Work Section",
-      "message":"Manage your daily tasks, leads, and customer details directly from this central hub."
+    "my_work": {
+      "title": "My Work Section",
+      "message": "Manage your daily tasks, leads, and customer details directly from this central hub."
     },
-
-    
     "my_leads": {
       "title": "My Leads",
       "message": "Tap “My Leads” to manage your pipeline."
@@ -563,5 +699,4 @@
     },
     "resume_hint": "Resume tour"
   }
-
 }

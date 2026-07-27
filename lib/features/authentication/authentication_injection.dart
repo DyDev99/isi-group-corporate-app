@@ -6,6 +6,8 @@ import 'package:isi_group_corporate_app/features/authentication/data/datasources
 import 'package:isi_group_corporate_app/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:isi_group_corporate_app/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:isi_group_corporate_app/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:isi_group_corporate_app/features/authentication/domain/usecases/authenticate_with_biometrics.dart';
+import 'package:isi_group_corporate_app/features/authentication/domain/usecases/can_offer_biometric_unlock.dart';
 import 'package:isi_group_corporate_app/features/authentication/domain/usecases/get_current_user.dart';
 import 'package:isi_group_corporate_app/features/authentication/domain/usecases/login.dart';
 import 'package:isi_group_corporate_app/features/authentication/domain/usecases/logout.dart';
@@ -26,6 +28,8 @@ void registerAuthFeature(GetIt sl) {
       logout: sl(),
       getCurrentUser: sl(),
       sessionManager: sl(),
+      authenticateWithBiometrics: sl(),
+      canOfferBiometricUnlock: sl(),
     ),
   );
 
@@ -33,6 +37,24 @@ void registerAuthFeature(GetIt sl) {
   sl.registerLazySingleton(() => Login(sl()));
   sl.registerLazySingleton(() => Logout(sl()));
   sl.registerLazySingleton(() => GetCurrentUser(sl()));
+
+  // Biometric *login* only. Enabling/disabling lives in the Profile feature's
+  // BiometricBloc — this feature can consume biometrics but cannot turn them
+  // on. Both resolve the same core BiometricRepository, so there is one graph
+  // and one source of truth.
+  sl.registerLazySingleton(
+    () => CanOfferBiometricUnlock(
+      biometricRepository: sl(),
+      authRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => AuthenticateWithBiometrics(
+      biometricRepository: sl(),
+      canOffer: sl(),
+      authRepository: sl(),
+    ),
+  );
 
   // ── Data (repository) ──────────────────────────────────────────────
   sl.registerLazySingleton<AuthRepository>(
@@ -56,4 +78,3 @@ void registerAuthFeature(GetIt sl) {
     () => AuthRemoteDataSourceImpl(sl<Dio>()),
   );
 }
-
