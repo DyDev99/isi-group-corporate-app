@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:isi_group_corporate_app/core/di/injection_container.dart';
 import 'package:isi_group_corporate_app/core/localization/localization_services.dart';
 import 'package:isi_group_corporate_app/core/localization/localized_builder.dart';
@@ -78,7 +77,6 @@ class AppPages {
     settings,
   );
   case Static.createNewPassword:
-  final args = settings.arguments as Map<String, String>? ?? {};
   return _page(
     Builder(
       builder: (context) => CreateNewPasswordScreen(

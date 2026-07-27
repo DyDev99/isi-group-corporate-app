@@ -12,6 +12,7 @@ import 'package:isi_group_corporate_app/core/database/secure/key_derivation.dart
 import 'package:isi_group_corporate_app/core/database/hive/app_preferences.dart';
 import 'package:isi_group_corporate_app/core/database/hive/hive_service.dart';
 import 'package:isi_group_corporate_app/core/logging/app_logger.dart';
+import 'package:isi_group_corporate_app/features/directory/directory_injection.dart';
 import 'package:isi_group_corporate_app/core/network/connectivity_cubit.dart';
 import 'package:isi_group_corporate_app/core/network/connectivity_service.dart';
 import 'package:isi_group_corporate_app/core/network/network_info.dart';
@@ -90,6 +91,7 @@ Future<void> initDependencies() async {
   registerAuthFeature(sl);
   registerProfileFeature(sl);
   registerNotificationFeature(sl);
+  registerDirectoryFeature(sl);   // ← add
   registerHrAssistantFeature(sl);
   registerAppCoachFeature(sl);
 }

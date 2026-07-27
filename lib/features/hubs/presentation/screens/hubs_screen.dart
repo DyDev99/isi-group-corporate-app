@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Feature Screen Imports
-import 'package:isi_group_corporate_app/features/directory/presentation/screens/directory_screen.dart';
 import 'package:isi_group_corporate_app/features/time_attendance/presentation/screens/time_attendance_screen.dart';
 import 'package:isi_group_corporate_app/features/leave_request/presentation/screens/leave_request_screen.dart';
 import 'package:isi_group_corporate_app/features/expenses/presentation/screens/expenses_screen.dart';
@@ -19,7 +18,6 @@ class AppHubScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Complete grid of tools with custom color schemes and route handlers
     final List<Map<String, dynamic>> hubItems = [
       {
         'title': 'Time & Attendance',
@@ -158,7 +156,7 @@ class AppHubScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               padding: EdgeInsets.only(top: 60.h, bottom: 120.h),
               children: [
-                // Header Title & Search Action
+                // Header Title & Classic Shadowed Search Action
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Row(
@@ -190,9 +188,17 @@ class AppHubScreen extends StatelessWidget {
                       ),
                       Container(
                         padding: EdgeInsets.all(10.r),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFF1F5F9),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
                           shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF0F172A).withValues(alpha: 0.06),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
                         child: Icon(
                           Icons.search_rounded,
@@ -204,7 +210,7 @@ class AppHubScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 28.h),
+                SizedBox(height: 24.h),
 
                 // Section Header Title
                 Padding(
@@ -226,8 +232,16 @@ class AppHubScreen extends StatelessWidget {
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFEFF4F9),
-                          borderRadius: BorderRadius.circular(12.r),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: Text(
                           '${hubItems.length} TOOLS',
@@ -245,7 +259,7 @@ class AppHubScreen extends StatelessWidget {
 
                 SizedBox(height: 16.h),
 
-                // Grid of Modules
+                // Grid of Modules with Classic Tile Styling & Shadow
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: GridView.builder(
@@ -253,9 +267,9 @@ class AppHubScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
-                      mainAxisSpacing: 20.h,
+                      mainAxisSpacing: 12.h,
                       crossAxisSpacing: 16.w,
-                      childAspectRatio: 0.8,
+                      childAspectRatio: 0.95,
                     ),
                     itemCount: hubItems.length,
                     itemBuilder: (context, index) {
@@ -271,9 +285,9 @@ class AppHubScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 28.h),
+                SizedBox(height: 24.h),
 
-                // AI Assistance Card
+                // AI Assistance Card with Classic Elevation
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: const AiAssistanceCard(),
@@ -300,18 +314,19 @@ class AppHubScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 64.r,
-            width: 64.r,
+            height: 60.r,
+            width: 60.r,
             decoration: BoxDecoration(
               color: bgColor,
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(14.r), // Classic rounded shape
               border: Border.all(color: Colors.white, width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+                  color: const Color(0xFF0F172A).withValues(alpha: 0.08), // Rich classic drop shadow
                   blurRadius: 10,
+                  spreadRadius: 0,
                   offset: const Offset(0, 4),
-                )
+                ),
               ],
             ),
             child: Icon(
@@ -340,7 +355,7 @@ class AppHubScreen extends StatelessWidget {
 }
 
 // ============================================================================
-// AI ASSISTANCE CARD WIDGET
+// AI ASSISTANCE CARD WIDGET (CLASSIC ELEVATED STYLE)
 // ============================================================================
 
 class AiAssistanceCard extends StatelessWidget {
@@ -351,13 +366,15 @@ class AiAssistanceCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        color: const Color(0xFF1B3673),
-        borderRadius: BorderRadius.circular(24.r),
+        color: const Color(0xFF1E293B), // Classic navy slate tone
+        borderRadius: BorderRadius.circular(16.r), // Classic card radius
+        border: Border.all(color: const Color(0xFF334155), width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1B3673).withValues(alpha: 0.25),
+            color: const Color(0xFF0F172A).withValues(alpha: 0.18), // Deeper classic shadow
             blurRadius: 16,
-            offset: const Offset(0, 8),
+            spreadRadius: 1,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -406,10 +423,11 @@ class AiAssistanceCard extends StatelessWidget {
             onPressed: () {},
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: const Color(0xFF1B3673),
-              elevation: 0,
+              foregroundColor: const Color(0xFF1E293B),
+              elevation: 2,
+              shadowColor: Colors.black38,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.r),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               padding: EdgeInsets.symmetric(
                 horizontal: 18.w,

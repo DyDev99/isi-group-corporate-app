@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:isi_group_corporate_app/features/digital_docs/presentation/screens/digital_docs_screen.dart';
+import 'package:isi_group_corporate_app/features/performance/presentation/screens/performance_screen.dart';
+import 'package:isi_group_corporate_app/features/profile/presentation/screens/company_policies_screen.dart';
+import 'package:isi_group_corporate_app/features/profile/presentation/screens/payroll_payslip_screen.dart';
+import 'package:isi_group_corporate_app/features/profile/presentation/screens/security_privacy_screen.dart';
+import 'package:isi_group_corporate_app/features/settings/theme/presentation/screens/settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,6 +15,21 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isDarkMode = false;
+
+  static const String _profileImageUrl =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXJwlpWlgmH8Y2F8bEK1uZUiFoU1ljVJCl8Ag_jJydag&s=10";
+
+  void _openFullScreenViewer(BuildContext context, String imageUrl) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        barrierDismissible: true,
+        pageBuilder: (BuildContext context, _, __) {
+          return FullScreenImageViewer(imageUrl: imageUrl);
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +75,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                           const SizedBox(width: 10),
-                          _buildHeaderIconButton(
-                            icon: Icons.settings_outlined,
-                            onTap: () {},
+
+                          // Settings Popover Menu Button
+                          PopupMenuButton<String>(
+                            padding: EdgeInsets.zero,
+                            // Positioned directly under the settings icon (-140px left alignment)
+                            offset: const Offset(50, 46),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              side: const BorderSide(color: Color(0xFFE2E8F0)),
+                            ),
+                            color: Colors.white,
+                            elevation: 8,
+                            shadowColor: const Color(0xFF0F172A).withValues(alpha: 0.12),
+                            onSelected: (String value) {
+                              switch (value) {
+                                case 'theme':
+                                  // TODO: Handle Theme option
+                                  break;
+                                case 'profile_detail':
+                                  // TODO: Handle View Profile Detail
+                                  break;
+                                case 'cache':
+                                  // TODO: Handle Cache Data
+                                  break;
+                                case 'security':
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const SecurityPrivacyScreen(),
+                                    ),
+                                  );
+                                  break;
+                                case 'appearance':
+                                  // TODO: Handle Appearance
+                                  break;
+                              }
+                            },
+                            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                              _buildSettingsMenuItem(
+                                value: 'theme',
+                                icon: Icons.palette_outlined,
+                                title: 'Theme',
+                              ),
+                              const PopupMenuDivider(height: 1),
+                              _buildSettingsMenuItem(
+                                value: 'profile_detail',
+                                icon: Icons.person_outline_rounded,
+                                title: 'View Profile Detail',
+                              ),
+                              const PopupMenuDivider(height: 1),
+                              _buildSettingsMenuItem(
+                                value: 'cache',
+                                icon: Icons.cleaning_services_outlined,
+                                title: 'Cache Data',
+                              ),
+                              const PopupMenuDivider(height: 1),
+                              _buildSettingsMenuItem(
+                                value: 'security',
+                                icon: Icons.lock_outline_rounded,
+                                title: 'Password and Security',
+                              ),
+                              const PopupMenuDivider(height: 1),
+                              _buildSettingsMenuItem(
+                                value: 'appearance',
+                                icon: Icons.display_settings_outlined,
+                                title: 'Appearance',
+                              ),
+                            ],
+                            child: _buildHeaderIconContainer(Icons.settings_outlined),
                           ),
                         ],
                       ),
@@ -64,28 +150,134 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Avatar Profile Image
-                  Container(
-                    width: 90,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: const Color(0xFF1E293B),
-                      border: Border.all(color: Colors.white, width: 3),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF0F172A).withValues(alpha: 0.08),
-                          blurRadius: 16,
-                          offset: const Offset(0, 6),
-                        )
-                      ],
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXJwlpWlgmH8Y2F8bEK1uZUiFoU1ljVJCl8Ag_jJydag&s=10",
+                  // Avatar Profile Image Stack
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // Clickable Avatar with Full Screen Zoom View
+                      GestureDetector(
+                        onTap: () => _openFullScreenViewer(context, _profileImageUrl),
+                        child: Hero(
+                          tag: 'profile_avatar',
+                          child: Container(
+                            width: 90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color(0xFF1E293B),
+                              border: Border.all(color: Colors.white, width: 3),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  blurRadius: 16,
+                                  offset: const Offset(0, 6),
+                                )
+                              ],
+                              image: const DecorationImage(
+                                image: NetworkImage(_profileImageUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
-                        fit: BoxFit.cover,
                       ),
-                    ),
+
+                      // Camera Popover Button anchored directly UNDER the camera icon
+                      Positioned(
+                        bottom: 0,
+                        right: -2,
+                        child: PopupMenuButton<String>(
+                          padding: EdgeInsets.zero,
+                          offset: const Offset(-90, 38),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: const BorderSide(color: Color(0xFFE2E8F0)),
+                          ),
+                          color: Colors.white,
+                          elevation: 8,
+                          shadowColor: const Color(0xFF0F172A).withValues(alpha: 0.12),
+                          onSelected: (String value) {
+                            if (value == 'selfie') {
+                              // TODO: Trigger camera selfie logic
+                            } else if (value == 'upload') {
+                              // TODO: Trigger gallery upload logic
+                            }
+                          },
+                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                            PopupMenuItem<String>(
+                              value: 'selfie',
+                              height: 40,
+                              padding: const EdgeInsets.symmetric(horizontal: 14),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  Icon(
+                                    Icons.camera_alt_outlined,
+                                    size: 18,
+                                    color: Color(0xFF2563EB),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "Take Selfie",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF0F172A),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const PopupMenuDivider(height: 1),
+                            PopupMenuItem<String>(
+                              value: 'upload',
+                              height: 40,
+                              padding: const EdgeInsets.symmetric(horizontal: 14),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  Icon(
+                                    Icons.photo_library_outlined,
+                                    size: 18,
+                                    color: Color(0xFF2563EB),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "Upload Photo",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF0F172A),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2563EB),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2.5),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF0F172A).withValues(alpha: 0.15),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt_rounded,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
 
@@ -174,19 +366,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         _buildListTile(
                           icon: Icons.account_balance_outlined,
                           title: "Payroll & Payslips",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const PayrollPayslipScreen(),
+                              ),
+                            );
+                          },
                           showBorder: true,
                         ),
                         _buildListTile(
                           icon: Icons.description_outlined,
                           title: "Contracts & Documents",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const DigitalDocsScreen(),
+                              ),
+                            );
+                          },
                           showBorder: true,
                         ),
                         _buildListTile(
                           icon: Icons.workspace_premium_outlined,
                           title: "Performance & Goals",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const PerformanceScreen(),
+                              ),
+                            );
+                          },
                           showBorder: false,
                         ),
                       ],
@@ -215,13 +425,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         _buildListTile(
                           icon: Icons.article_outlined,
                           title: "Company Policies",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const CompanyPoliciesScreen(),
+                              ),
+                            );
+                          },
                           showBorder: true,
                         ),
                         _buildListTile(
                           icon: Icons.shield_outlined,
                           title: "Security & Privacy",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const SecurityPrivacyScreen(),
+                              ),
+                            );
+                          },
                           showBorder: false,
                         ),
                       ],
@@ -270,6 +492,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  PopupMenuItem<String> _buildSettingsMenuItem({
+    required String value,
+    required IconData icon,
+    required String title,
+  }) {
+    return PopupMenuItem<String>(
+      value: value,
+      height: 40,
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 18,
+            color: const Color(0xFF2563EB),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF0F172A),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderIconContainer(IconData icon) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0F172A).withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          )
+        ],
+      ),
+      child: Icon(icon, size: 20, color: const Color(0xFF475569)),
     );
   }
 
@@ -348,6 +621,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Icons.chevron_right_rounded,
           size: 20,
           color: Color(0xFF94A3B8),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
+// FULL SCREEN ZOOMABLE IMAGE VIEWER
+// ============================================================================
+
+class FullScreenImageViewer extends StatelessWidget {
+  final String imageUrl;
+
+  const FullScreenImageViewer({super.key, required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.close_rounded, color: Colors.white, size: 28),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: Center(
+        child: InteractiveViewer(
+          panEnabled: true,
+          minScale: 0.8,
+          maxScale: 4.0,
+          child: Hero(
+            tag: 'profile_avatar',
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
         ),
       ),
     );

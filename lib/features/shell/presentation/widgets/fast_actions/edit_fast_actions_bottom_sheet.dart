@@ -227,7 +227,7 @@ class _EditFastActionsBottomSheetState extends State<EditFastActionsBottomSheet>
                           // Enable/Disable Switch
                           Switch.adaptive(
                             value: tool.isEnabled,
-                            activeColor: const Color(0xFF1B3673),
+                            activeThumbColor: const Color(0xFF1B3673),
                             onChanged: (bool value) {
                               setState(() {
                                 tool.isEnabled = value;

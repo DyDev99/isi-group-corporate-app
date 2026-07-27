@@ -85,7 +85,7 @@ class CubePatternPainter extends CustomPainter {
         final double intensity = (wave + 1) / 2; 
 
         // Lighten the colors based on the wave intensity to create a shimmer effect
-        topPaint.color = Color.lerp(Colors.white, Colors.white.withOpacity(0.4), intensity)!;
+        topPaint.color = Color.lerp(Colors.white, Colors.white.withValues(alpha: 0.4), intensity)!;
         leftPaint.color = Color.lerp(const Color(0xFFF1F5F9), const Color(0xFFE2E8F0), intensity)!;
         rightPaint.color = Color.lerp(const Color(0xFFE2E8F0), const Color(0xFFCBD5E1), intensity)!;
 
