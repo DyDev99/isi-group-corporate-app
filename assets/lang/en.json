@@ -142,6 +142,18 @@
         "authInProgress": "A verification is already in progress. Please wait a moment and try again.",
         "platformMisconfigured": "Biometric authentication is unavailable in this build. Please sign in with your password.",
         "unknown": "Biometric authentication is unavailable right now. Please sign in with your password."
+      },
+      "gate": {
+        "title": "Verify It’s You",
+        "unlock": "Use Face ID or Fingerprint",
+        "use_password": "Use my account password",
+        "password_title": "Confirm Your Password",
+        "password_body": "Enter your ISI Corporate account password to continue.",
+        "confirm": "Confirm",
+        "payroll_body": "Your payslips contain salary information. Confirm it is you with Face ID or your fingerprint. If that is not available, you can use your account password.",
+        "performance_body": "Your performance reviews and goals are confidential. Confirm it is you with Face ID or your fingerprint, or use your account password.",
+        "leave_body": "Leave records contain personal information. Confirm it is you with Face ID or your fingerprint, or use your account password.",
+        "sign_in_body": "Sign in to your ISI Corporate account to view this. Once signed in, you can unlock it with Face ID or your fingerprint."
       }
     }
   },
@@ -582,6 +594,15 @@
           "body": "1. NETWORK SECURITY\n• Avoid using public unencrypted Wi-Fi networks when viewing sensitive payroll or client data.\n• Always use the company VPN when working remotely.\n\n2. SCREEN LOCKS\n• Set auto-lock timeout to 5 minutes or less on your mobile device.\n• Never leave unlocked devices unattended in public or open office spaces."
         }
       }
+    },
+    "payroll": {
+      "title": "Payroll & Payslips"
+    },
+    "performance": {
+      "title": "Performance & Goals"
+    },
+    "leave": {
+      "title": "Leave Requests"
     }
   },
   "appearance": {

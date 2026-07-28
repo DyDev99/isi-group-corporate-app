@@ -54,6 +54,12 @@ abstract interface class BiometricService {
   ///
   /// Returns `true` only on a positive match. Throws [BiometricException] for
   /// every platform refusal, dismissal or lockout.
+  ///
+  /// **Always biometric-only.** The device PIN/pattern is deliberately not
+  /// accepted as a substitute anywhere in this app: whoever knows the phone's
+  /// unlock code would otherwise reach payslips and performance reviews. The
+  /// one sanctioned fallback is the ISI Corporate account password, which the
+  /// calling surface offers as the last option.
   Future<bool> authenticate({required BiometricPromptCopy copy});
 
   /// Cancels an in-flight prompt, e.g. when the user navigates away.
@@ -104,7 +110,8 @@ class LocalAuthBiometricService implements BiometricService {
       );
     } catch (_) {
       // A probe must never take the screen down with it.
-      return const BiometricCapability.unsupported(BiometricFailureCode.unknown);
+      return const BiometricCapability.unsupported(
+          BiometricFailureCode.unknown);
     }
   }
 
@@ -114,10 +121,8 @@ class LocalAuthBiometricService implements BiometricService {
       return await _localAuth.authenticate(
         localizedReason: copy.reason,
         options: const AuthenticationOptions(
-          // Biometrics only: the device PIN is deliberately not accepted as a
-          // substitute. The fallback for a failed biometric is ISI Corporate's
-          // own credential form, which is a stronger identity check than a
-          // device PIN and keeps the session bound to a real login.
+          // Biometrics only — the device PIN is never accepted as a stand-in.
+          // See [BiometricService.authenticate].
           biometricOnly: true,
           stickyAuth: true,
           useErrorDialogs: true,

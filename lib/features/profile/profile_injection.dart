@@ -57,4 +57,3 @@ void registerProfileFeature(GetIt sl) {
         settingsLauncher: sl(),
       ));
 }
-

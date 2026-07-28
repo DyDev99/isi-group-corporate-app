@@ -18,4 +18,3 @@ abstract class ProfileRepository {
   /// `ProfileRepositoryImpl`.
   Future<Result<void>> logout();
 }
-

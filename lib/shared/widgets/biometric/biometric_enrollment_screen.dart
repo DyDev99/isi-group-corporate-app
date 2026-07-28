@@ -46,8 +46,7 @@ class BiometricEnrollmentScreen extends StatelessWidget {
   /// Test seam — production reads [Platform.isIOS].
   final bool? isIosOverride;
 
-  bool get _isIos =>
-      isIosOverride ?? (!kIsWeb && Platform.isIOS);
+  bool get _isIos => isIosOverride ?? (!kIsWeb && Platform.isIOS);
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +70,8 @@ class BiometricEnrollmentScreen extends StatelessWidget {
       extra: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for (final (index, instruction) in _instructions(needsPasscode)
-              .indexed)
+          for (final (index, instruction)
+              in _instructions(needsPasscode).indexed)
             BiometricInstruction(step: index + 1, label: instruction),
           const SizedBox(height: 12),
           BiometricBullet(

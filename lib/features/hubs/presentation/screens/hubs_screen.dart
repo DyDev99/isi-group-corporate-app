@@ -14,36 +14,8 @@ import 'package:isi_group_corporate_app/features/digital_docs/presentation/scree
 import 'package:isi_group_corporate_app/features/performance/presentation/screens/performance_screen.dart';
 import 'package:isi_group_corporate_app/features/travel/presentation/screens/travel_screen.dart';
 
-// --- REUSABLE PRESSABLE ANIMATION WRAPPER ---
-class _AnimatedPressable extends StatefulWidget {
-  final Widget child;
-  final VoidCallback? onTap;
-
-  const _AnimatedPressable({required this.child, this.onTap});
-
-  @override
-  State<_AnimatedPressable> createState() => _AnimatedPressableState();
-}
-
-class _AnimatedPressableState extends State<_AnimatedPressable> {
-  bool _isPressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) => setState(() => _isPressed = false),
-      onTapCancel: () => setState(() => _isPressed = false),
-      onTap: widget.onTap,
-      child: AnimatedScale(
-        scale: _isPressed ? 0.94 : 1.0,
-        duration: const Duration(milliseconds: 120),
-        curve: Curves.easeOutCubic,
-        child: widget.child,
-      ),
-    );
-  }
-}
+// Import or include GridBackground widget
+// import 'package:isi_group_corporate_app/shared/widgets/grid_background.dart';
 
 class AppHubScreen extends StatelessWidget {
   const AppHubScreen({super.key});
@@ -154,12 +126,12 @@ class AppHubScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: const Color(0xFFF6F8FA),
       body: Stack(
         children: [
-          // Ambient Background Glow
+          // Grid Backdrop
           const Positioned.fill(
-            child: RelaxingAmbientBackground(),
+            child: GridBackground(),
           ),
 
           // Main Content
@@ -247,8 +219,9 @@ class AppHubScreen extends StatelessWidget {
                           vertical: 3.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF1F5F9),
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(color: const Color(0xFFE2E8F0)),
                         ),
                         child: Text(
                           '${hubItems.length} TOOLS',
@@ -356,6 +329,40 @@ class AppHubScreen extends StatelessWidget {
 }
 
 // ============================================================================
+// REUSABLE PRESSABLE ANIMATION WRAPPER
+// ============================================================================
+
+class _AnimatedPressable extends StatefulWidget {
+  final Widget child;
+  final VoidCallback? onTap;
+
+  const _AnimatedPressable({required this.child, this.onTap});
+
+  @override
+  State<_AnimatedPressable> createState() => _AnimatedPressableState();
+}
+
+class _AnimatedPressableState extends State<_AnimatedPressable> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) => setState(() => _isPressed = false),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.94 : 1.0,
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.easeOutCubic,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+// ============================================================================
 // SOFT AI ASSISTANCE CARD
 // ============================================================================
 
@@ -367,16 +374,16 @@ class AiAssistanceCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFFEEF2FF),
-            Color(0xFFF5F3FF),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFFC7D2FE).withValues(alpha: 0.5)),
+        border: Border.all(color: const Color(0xFFC7D2FE).withValues(alpha: 0.6)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0F172A).withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -447,65 +454,82 @@ class AiAssistanceCard extends StatelessWidget {
 }
 
 // ============================================================================
-// AMBIENT BACKGROUND PAINTER
+// GRID BACKGROUND WIDGET
 // ============================================================================
 
-class RelaxingAmbientBackground extends StatelessWidget {
-  const RelaxingAmbientBackground({super.key});
+class GridBackground extends StatelessWidget {
+  final Color background;
+  final Color line;
+  final double cell;
+  final double strokeWidth;
+  final Offset offset;
+
+  const GridBackground({
+    super.key,
+    this.background = const Color(0xFFF6F8FA),
+    this.line = const Color(0x99E2E8F0),
+    this.cell = 24,
+    this.strokeWidth = 1,
+    this.offset = Offset.zero,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: AmbientBackgroundPainter(),
-      child: Container(),
+    return RepaintBoundary(
+      child: CustomPaint(
+        size: Size.infinite,
+        painter: _GridPainter(
+          background: background,
+          line: line,
+          cell: cell,
+          strokeWidth: strokeWidth,
+          offset: offset,
+        ),
+      ),
     );
   }
 }
 
-class AmbientBackgroundPainter extends CustomPainter {
+class _GridPainter extends CustomPainter {
+  final Color background;
+  final Color line;
+  final double cell;
+  final double strokeWidth;
+  final Offset offset;
+
+  const _GridPainter({
+    required this.background,
+    required this.line,
+    required this.cell,
+    required this.strokeWidth,
+    required this.offset,
+  });
+
+  double _phase(double value) => ((value % cell) + cell) % cell;
+
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawColor(const Color(0xFFF8FAFC), BlendMode.srcOver);
+    canvas.drawColor(background, BlendMode.srcOver);
 
-    // Soft Indigo Radial Glow (Top Left)
-    final Paint glowPaint1 = Paint()
-      ..shader = RadialGradient(
-        colors: [
-          const Color(0xFFEEF2FF).withValues(alpha: 0.8),
-          const Color(0xFFF8FAFC).withValues(alpha: 0.0),
-        ],
-      ).createShader(
-        Rect.fromCircle(
-          center: Offset(size.width * 0.2, size.height * 0.1),
-          radius: size.width * 0.6,
-        ),
-      );
-    canvas.drawCircle(
-      Offset(size.width * 0.2, size.height * 0.1),
-      size.width * 0.6,
-      glowPaint1,
-    );
+    final paint = Paint()
+      ..color = line
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
 
-    // Soft Emerald Radial Glow (Bottom Right)
-    final Paint glowPaint2 = Paint()
-      ..shader = RadialGradient(
-        colors: [
-          const Color(0xFFECFDF5).withValues(alpha: 0.6),
-          const Color(0xFFF8FAFC).withValues(alpha: 0.0),
-        ],
-      ).createShader(
-        Rect.fromCircle(
-          center: Offset(size.width * 0.8, size.height * 0.7),
-          radius: size.width * 0.7,
-        ),
-      );
-    canvas.drawCircle(
-      Offset(size.width * 0.8, size.height * 0.7),
-      size.width * 0.7,
-      glowPaint2,
-    );
+    for (var x = _phase(offset.dx); x <= size.width; x += cell) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+
+    for (var y = _phase(offset.dy); y <= size.height; y += cell) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _GridPainter oldDelegate) =>
+      oldDelegate.background != background ||
+      oldDelegate.line != line ||
+      oldDelegate.cell != cell ||
+      oldDelegate.strokeWidth != strokeWidth ||
+      oldDelegate.offset != offset;
 }

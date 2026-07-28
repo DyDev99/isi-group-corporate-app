@@ -62,4 +62,3 @@ class WorkerProfileModel extends WorkerProfile {
         'isActive': isActive,
       };
 }
-

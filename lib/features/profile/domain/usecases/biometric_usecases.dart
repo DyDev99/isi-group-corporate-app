@@ -110,8 +110,7 @@ class BiometricModalityParams extends Equatable {
 }
 
 /// Reads the persisted settings (secure storage only).
-class GetBiometricSettingsUseCase
-    extends UseCase<BiometricSettings, NoParams> {
+class GetBiometricSettingsUseCase extends UseCase<BiometricSettings, NoParams> {
   const GetBiometricSettingsUseCase(this._repository);
   final BiometricRepository _repository;
 

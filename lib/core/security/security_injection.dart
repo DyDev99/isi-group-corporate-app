@@ -4,6 +4,7 @@ import 'package:isi_group_corporate_app/core/security/biometric/biometric_reposi
 import 'package:isi_group_corporate_app/core/security/biometric/biometric_secure_store.dart';
 import 'package:isi_group_corporate_app/core/security/biometric/biometric_service.dart';
 import 'package:isi_group_corporate_app/core/security/biometric/device_settings_launcher.dart';
+import 'package:isi_group_corporate_app/core/security/biometric/identity_verification_cache.dart';
 
 /// Registers `core/security/` infrastructure.
 ///
@@ -34,5 +35,13 @@ void registerSecurityInfrastructure(GetIt sl) {
 
   sl.registerLazySingleton<DeviceSettingsLauncher>(
     DeviceSettingsLauncherImpl.new,
+  );
+
+  // Singleton on purpose: the grace window is shared across every guarded
+  // screen, so verifying once to open Payslips also covers Performance and
+  // Leave for the next minute. A factory would give each screen its own
+  // window, which would defeat the point.
+  sl.registerLazySingleton<IdentityVerificationCache>(
+    IdentityVerificationCache.new,
   );
 }

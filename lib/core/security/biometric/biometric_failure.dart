@@ -73,7 +73,8 @@ enum BiometricFailureCode {
 
   /// The user must unlock the device with their PIN/pattern/password before
   /// biometrics will work again.
-  bool get requiresDeviceUnlock => this == BiometricFailureCode.permanentLockout;
+  bool get requiresDeviceUnlock =>
+      this == BiometricFailureCode.permanentLockout;
 
   /// Retrying the same prompt could plausibly succeed. Distinguishes "offer a
   /// Try Again button" from "this device will never do this".
@@ -155,6 +156,5 @@ BiometricFailureCode biometricFailureCodeFromPlatform(String rawCode) =>
       'authInProgress' => BiometricFailureCode.authInProgress,
       'uiUnavailable' => BiometricFailureCode.platformMisconfigured,
       'deviceError' || 'unknownError' => BiometricFailureCode.unknown,
-
       _ => BiometricFailureCode.unknown,
     };

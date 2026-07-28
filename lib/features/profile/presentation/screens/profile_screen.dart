@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:isi_group_corporate_app/core/localization/localization_services.dart';
+import 'package:isi_group_corporate_app/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:isi_group_corporate_app/features/authentication/presentation/bloc/auth_event.dart';
 import 'package:isi_group_corporate_app/features/digital_docs/presentation/screens/digital_docs_screen.dart';
+import 'package:isi_group_corporate_app/features/profile/presentation/widgets/settings_card.dart';
 import 'package:isi_group_corporate_app/features/performance/presentation/screens/performance_screen.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/screens/company_policies_screen.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/screens/payroll_payslip_screen.dart';
@@ -30,6 +35,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  /// Signs the user out through [AuthBloc].
+  ///
+  /// Confirmed first, because signing out is destructive to in-flight work and
+  /// the button sits directly under the settings list.
+  ///
+  /// **Signing out clears tokens only.** Biometric registration lives in its
+  /// own secure-storage keys that the auth data source never touches, so
+  /// fingerprint / Face ID stays set up and the next sign-in offers it
+  /// immediately — no repeat onboarding.
+  ///
+  /// No navigation happens here: `AuthBloc` emits `AuthGuestState`, the app
+  /// stays open and browsable as a guest, and each surface owns its own
+  /// transition (`ENGINEERING_STANDARD.md` §4 — no global auth redirect).
+  Future<void> _confirmSignOut() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('profile.logout_confirm_title'.tr),
+        content: Text('profile.logout_confirm_body'.tr),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text('common.cancel'.tr),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFFE11D48),
+            ),
+            child: Text('profile.logout'.tr),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+    context.read<AuthBloc>().add(const LogoutRequested());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +88,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // 2. Main Content Layer
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -86,17 +131,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             color: Colors.white,
                             elevation: 8,
-                            shadowColor: const Color(0xFF0F172A).withValues(alpha: 0.12),
+                            shadowColor:
+                                const Color(0xFF0F172A).withValues(alpha: 0.12),
                             onSelected: (String value) {
                               switch (value) {
-                           
                                 case 'profile_detail':
                                   // TODO: Handle View Profile Detail
                                   break;
                                 case 'security':
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (_) => const SecurityPrivacyScreen(),
+                                      builder: (_) =>
+                                          const SecurityPrivacyScreen(),
                                     ),
                                   );
                                   break;
@@ -105,14 +151,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   break;
                               }
                             },
-                            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                      
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<String>>[
                               _buildSettingsMenuItem(
                                 value: 'profile_detail',
                                 icon: Icons.person_outline_rounded,
                                 title: 'View Profile Detail',
                               ),
-                            
                               const PopupMenuDivider(height: 1),
                               _buildSettingsMenuItem(
                                 value: 'security',
@@ -126,7 +171,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 title: 'Appearance',
                               ),
                             ],
-                            child: _buildHeaderIconContainer(Icons.settings_outlined),
+                            child: _buildHeaderIconContainer(
+                                Icons.settings_outlined),
                           ),
                         ],
                       ),
@@ -140,7 +186,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       // Clickable Avatar with Full Screen Zoom View
                       GestureDetector(
-                        onTap: () => _openFullScreenViewer(context, _profileImageUrl),
+                        onTap: () =>
+                            _openFullScreenViewer(context, _profileImageUrl),
                         child: Hero(
                           tag: 'profile_avatar',
                           child: Container(
@@ -152,7 +199,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               border: Border.all(color: Colors.white, width: 3),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF0F172A).withValues(alpha: 0.08),
+                                  color: const Color(0xFF0F172A)
+                                      .withValues(alpha: 0.08),
                                   blurRadius: 16,
                                   offset: const Offset(0, 6),
                                 )
@@ -179,7 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           color: Colors.white,
                           elevation: 8,
-                          shadowColor: const Color(0xFF0F172A).withValues(alpha: 0.12),
+                          shadowColor:
+                              const Color(0xFF0F172A).withValues(alpha: 0.12),
                           onSelected: (String value) {
                             if (value == 'selfie') {
                               // TODO: Trigger camera selfie logic
@@ -187,11 +236,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               // TODO: Trigger gallery upload logic
                             }
                           },
-                          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<String>>[
                             PopupMenuItem<String>(
                               value: 'selfie',
                               height: 40,
-                              padding: const EdgeInsets.symmetric(horizontal: 14),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 14),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: const [
@@ -216,7 +267,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             PopupMenuItem<String>(
                               value: 'upload',
                               height: 40,
-                              padding: const EdgeInsets.symmetric(horizontal: 14),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 14),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: const [
@@ -244,10 +296,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               color: const Color(0xFF2563EB),
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2.5),
+                              border:
+                                  Border.all(color: Colors.white, width: 2.5),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF0F172A).withValues(alpha: 0.15),
+                                  color: const Color(0xFF0F172A)
+                                      .withValues(alpha: 0.15),
                                   blurRadius: 8,
                                   offset: const Offset(0, 3),
                                 ),
@@ -291,7 +345,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       // Active Status Badge
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
                           color: const Color(0xFFECFDF5),
                           borderRadius: BorderRadius.circular(20),
@@ -310,7 +365,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       // Employee ID Badge
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF1F5F9),
                           borderRadius: BorderRadius.circular(20),
@@ -332,106 +388,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // Section: EMPLOYMENT
                   _buildSectionHeader("EMPLOYMENT"),
                   const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF0F172A).withValues(alpha: 0.03),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        _buildListTile(
-                          icon: Icons.account_balance_outlined,
-                          title: "Payroll & Payslips",
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const PayrollPayslipScreen(),
-                              ),
-                            );
-                          },
-                          showBorder: true,
-                        ),
-                        _buildListTile(
-                          icon: Icons.description_outlined,
-                          title: "Contracts & Documents",
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const DigitalDocsScreen(),
-                              ),
-                            );
-                          },
-                          showBorder: true,
-                        ),
-                        _buildListTile(
-                          icon: Icons.workspace_premium_outlined,
-                          title: "Performance & Goals",
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const PerformanceScreen(),
-                              ),
-                            );
-                          },
-                          showBorder: false,
-                        ),
-                      ],
-                    ),
+                  SettingsCard(
+                    children: [
+                      _buildListTile(
+                        icon: Icons.account_balance_outlined,
+                        title: "Payroll & Payslips",
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const PayrollPayslipScreen(),
+                            ),
+                          );
+                        },
+                        showBorder: true,
+                      ),
+                      _buildListTile(
+                        icon: Icons.description_outlined,
+                        title: "Contracts & Documents",
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const DigitalDocsScreen(),
+                            ),
+                          );
+                        },
+                        showBorder: true,
+                      ),
+                      _buildListTile(
+                        icon: Icons.workspace_premium_outlined,
+                        title: "Performance & Goals",
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const PerformanceScreen(),
+                            ),
+                          );
+                        },
+                        showBorder: false,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
 
                   // Section: SYSTEM
                   _buildSectionHeader("SYSTEM"),
                   const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFE2E8F0)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF0F172A).withValues(alpha: 0.03),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        _buildListTile(
-                          icon: Icons.article_outlined,
-                          title: "Company Policies",
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const CompanyPoliciesScreen(),
-                              ),
-                            );
-                          },
-                          showBorder: true,
-                        ),
-                        _buildListTile(
-                          icon: Icons.shield_outlined,
-                          title: "Password & Security",
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const SecurityPrivacyScreen(),
-                              ),
-                            );
-                          },
-                          showBorder: false,
-                        ),
-                      ],
-                    ),
+                  SettingsCard(
+                    children: [
+                      _buildListTile(
+                        icon: Icons.article_outlined,
+                        title: "Company Policies",
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const CompanyPoliciesScreen(),
+                            ),
+                          );
+                        },
+                        showBorder: true,
+                      ),
+                      _buildListTile(
+                        icon: Icons.shield_outlined,
+                        title: "Password & Security",
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const SecurityPrivacyScreen(),
+                            ),
+                          );
+                        },
+                        showBorder: false,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 24),
 
@@ -439,7 +467,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: _confirmSignOut,
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: const Color(0xFFFFF1F2),
@@ -530,7 +558,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildHeaderIconButton({required IconData icon, required VoidCallback onTap}) {
+  Widget _buildHeaderIconButton(
+      {required IconData icon, required VoidCallback onTap}) {
     return Container(
       width: 40,
       height: 40,

@@ -8,6 +8,7 @@ import 'package:isi_group_corporate_app/features/profile/presentation/bloc/biome
 import 'package:isi_group_corporate_app/features/profile/presentation/bloc/biometric/biometric_event.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/bloc/biometric/biometric_state.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/widgets/biometric_switch_tile.dart';
+import 'package:isi_group_corporate_app/features/profile/presentation/widgets/settings_card.dart';
 import 'package:isi_group_corporate_app/features/profile/presentation/widgets/security_documents.dart';
 import 'package:isi_group_corporate_app/shared/widgets/biometric/biometric_onboarding_flow.dart';
 
@@ -38,8 +39,8 @@ class SecurityPrivacyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BiometricBloc>(
-      create: (_) =>
-          (bloc ?? GetIt.instance<BiometricBloc>())..add(const BiometricStarted()),
+      create: (_) => (bloc ?? GetIt.instance<BiometricBloc>())
+        ..add(const BiometricStarted()),
       child: const _SecurityPrivacyView(),
     );
   }
@@ -85,23 +86,22 @@ class _SecurityPrivacyView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SecuritySectionLabel(
+                  const SettingsSectionLabel(
                     label: 'profile.security.section_auth',
                   ),
                   const SizedBox(height: 12),
                   _AuthenticationCard(scheme: scheme),
                   const SizedBox(height: 28),
-                  SecuritySectionLabel(
+                  SettingsSectionLabel(
                     label: 'profile.security.section_knowledge',
                     trailing: Text(
                       'profile.security.guide_count'.trParams(
                         {'count': securityKnowledgeDocs.length},
                       ),
-                      style:
-                          Theme.of(context).textTheme.labelSmall?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: scheme.primary,
-                              ),
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: scheme.primary,
+                          ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -146,7 +146,7 @@ class _AuthenticationCard extends StatelessWidget {
           );
       },
       builder: (context, state) {
-        return SecurityCard(
+        return SettingsCard(
           children: [
             ListTile(
               contentPadding:
@@ -173,8 +173,8 @@ class _AuthenticationCard extends StatelessWidget {
                     .bodySmall
                     ?.copyWith(color: colors.textSecondary),
               ),
-              trailing: Icon(Icons.chevron_right_rounded,
-                  color: colors.iconMuted),
+              trailing:
+                  Icon(Icons.chevron_right_rounded, color: colors.iconMuted),
               onTap: () => showChangePasswordSheet(context),
             ),
             Divider(height: 1, color: colors.divider),
@@ -284,7 +284,8 @@ class _UnsupportedNotice extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline_rounded, size: 18, color: colors.textSecondary),
+          Icon(Icons.info_outline_rounded,
+              size: 18, color: colors.textSecondary),
           const SizedBox(width: 12),
           Expanded(
             child: Text(

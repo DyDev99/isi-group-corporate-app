@@ -11,4 +11,3 @@ class UpdateWorkerProfile implements UseCase<WorkerProfile, WorkerProfile> {
   Future<Result<WorkerProfile>> call(WorkerProfile params) =>
       _repository.updateProfile(params);
 }
-

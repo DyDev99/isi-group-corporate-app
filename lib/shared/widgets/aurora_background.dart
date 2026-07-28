@@ -15,4 +15,3 @@ class AuroraBackground extends StatelessWidget {
     return ColoredBox(color: context.appColors.surfaceSoft);
   }
 }
-

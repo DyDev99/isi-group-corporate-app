@@ -256,8 +256,8 @@ void main() {
         final result = await repository.authenticate(copy: testPromptCopy);
         final failure = result.when(success: (_) => null, failure: (f) => f);
 
-        expect((failure! as BiometricFailure).code,
-            BiometricFailureCode.unknown);
+        expect(
+            (failure! as BiometricFailure).code, BiometricFailureCode.unknown);
       });
     });
 
@@ -281,7 +281,8 @@ void main() {
         verify(() => store.write(any())).called(1);
       });
 
-      test('REFUSES to enable when nothing is enrolled — a UI bug cannot '
+      test(
+          'REFUSES to enable when nothing is enrolled — a UI bug cannot '
           'leave a half-enabled switch', () async {
         when(() => service.readCapability()).thenAnswer(
           (_) async => const BiometricCapability(
@@ -321,8 +322,8 @@ void main() {
 
       test('REFUSES to enable on a device with no hardware at all', () async {
         when(() => service.readCapability()).thenAnswer(
-          (_) async =>
-              const BiometricCapability.unsupported(BiometricFailureCode.noHardware),
+          (_) async => const BiometricCapability.unsupported(
+              BiometricFailureCode.noHardware),
         );
 
         final result = await repository.enable(BiometricModality.fingerprint);
@@ -530,8 +531,8 @@ void main() {
         ),
       );
 
-      when(() => storage.read(key: any(named: 'key')))
-          .thenAnswer((invocation) async =>
+      when(() => storage.read(key: any(named: 'key'))).thenAnswer(
+          (invocation) async =>
               written[invocation.namedArguments[#key] as String]);
 
       final read = await store.read();

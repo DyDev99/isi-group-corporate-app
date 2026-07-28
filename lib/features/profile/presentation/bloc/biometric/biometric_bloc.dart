@@ -76,8 +76,7 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
 
   /// Whether the platform can deep-link to enrolment (Android) or the user
   /// must be given written directions (iOS). Read by the enrolment screen.
-  bool get canDeepLinkToEnrollment =>
-      _settingsLauncher.canDeepLinkToEnrollment;
+  bool get canDeepLinkToEnrollment => _settingsLauncher.canDeepLinkToEnrollment;
 
   // ── Load ────────────────────────────────────────────────────────────
 

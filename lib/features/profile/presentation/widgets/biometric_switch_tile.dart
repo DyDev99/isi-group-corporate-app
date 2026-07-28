@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:isi_group_corporate_app/core/localization/localization_services.dart';
 import 'package:isi_group_corporate_app/core/theme/theme_extensions.dart';
 
 /// A security switch whose ON position is owned by persisted state, never by
@@ -102,59 +101,7 @@ class BiometricSwitchTile extends StatelessWidget {
   }
 }
 
-/// Section label above a settings card.
-class SecuritySectionLabel extends StatelessWidget {
-  const SecuritySectionLabel({super.key, required this.label, this.trailing});
-
-  final String label;
-  final Widget? trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    final style = Theme.of(context).textTheme.labelSmall?.copyWith(
-          fontWeight: FontWeight.w800,
-          color: colors.textSecondary,
-          letterSpacing: 0.8,
-        );
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(child: Text(label.tr, style: style)),
-        if (trailing != null) trailing!,
-      ],
-    );
-  }
-}
-
-/// Rounded card wrapper for a group of settings tiles.
-///
-/// The fill sits on a [Material] rather than on the outer `DecoratedBox`,
-/// because `ListTile`/`SwitchListTile` paint their ripple on the nearest
-/// `Material` — colouring the intermediate box triggers the "ink may be
-/// invisible" assertion (`SKILL_GUIDE.md` §6 gotcha 2).
-class SecurityCard extends StatelessWidget {
-  const SecurityCard({super.key, required this.children});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colors.border),
-        boxShadow: colors.cardShadow,
-      ),
-      child: Material(
-        color: colors.card,
-        borderRadius: BorderRadius.circular(20),
-        clipBehavior: Clip.antiAlias,
-        child: Column(children: children),
-      ),
-    );
-  }
-}
+// The card and section-label wrappers previously duplicated here now live in
+// `settings_card.dart` as `SettingsCard` / `SettingsSectionLabel`, so the
+// Profile screen and the Security screen share one correct implementation of
+// the Material-fill pattern instead of two.

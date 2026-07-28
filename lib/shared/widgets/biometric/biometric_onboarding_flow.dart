@@ -118,9 +118,8 @@ class _BiometricOnboardingFlowState extends State<BiometricOnboardingFlow>
   }
 
   void _verify() {
-    context
-        .read<BiometricBloc>()
-        .add(BiometricVerificationRequested(copy: buildPromptCopy(widget.reason)));
+    context.read<BiometricBloc>().add(
+        BiometricVerificationRequested(copy: buildPromptCopy(widget.reason)));
   }
 
   @override
@@ -165,7 +164,8 @@ class _BiometricOnboardingFlowState extends State<BiometricOnboardingFlow>
     final modality = state.pendingModality ?? widget.modality;
 
     return switch (state.step) {
-      BiometricFlowStep.idle || BiometricFlowStep.welcome =>
+      BiometricFlowStep.idle ||
+      BiometricFlowStep.welcome =>
         BiometricSetupScreen(
           modality: modality,
           onContinue: () => context
@@ -179,26 +179,24 @@ class _BiometricOnboardingFlowState extends State<BiometricOnboardingFlow>
       BiometricFlowStep.validating => _Validating(
           message: 'auth.biometric.validating'.tr,
         ),
-
       BiometricFlowStep.enrollmentRequired => BiometricEnrollmentScreen(
           modality: modality,
           status:
               state.enrollmentStatus ?? BiometricEnrollmentStatus.notEnrolled,
-          canOpenSettings: context.read<BiometricBloc>().canDeepLinkToEnrollment,
+          canOpenSettings:
+              context.read<BiometricBloc>().canDeepLinkToEnrollment,
           isBusy: state.isBusy,
           onOpenSettings: () => context
               .read<BiometricBloc>()
               .add(const BiometricEnrollmentSettingsRequested()),
           onCancel: _cancel,
         ),
-
       BiometricFlowStep.verifying => BiometricVerificationDialog(
           modality: modality,
           isBusy: state.isBusy,
           onRetry: _verify,
           onCancel: _cancel,
         ),
-
       BiometricFlowStep.success => BiometricSuccessDialog(
           modality: modality,
           onDone: () {
@@ -206,12 +204,10 @@ class _BiometricOnboardingFlowState extends State<BiometricOnboardingFlow>
             Navigator.of(context).maybePop(true);
           },
         ),
-
       BiometricFlowStep.unsupported => BiometricUnsupportedDialog(
           code: state.failureCode ?? BiometricFailureCode.noHardware,
           onDismiss: _cancel,
         ),
-
       BiometricFlowStep.error => BiometricErrorDialog(
           code: state.failureCode ?? BiometricFailureCode.unknown,
           onRetry: _verify,

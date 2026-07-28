@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:isi_group_corporate_app/core/security/biometric/authentication_reason.dart';
+import 'package:isi_group_corporate_app/shared/widgets/biometric/sensitive_screen_guard.dart';
 
 // --- ENUMS & MODELS ---
 enum UserRole {
@@ -72,14 +74,34 @@ class AttachmentFile {
 }
 
 // --- MAIN SCREEN ---
-class LeaveRequestScreen extends StatefulWidget {
+
+/// Leave records and approvals — gated behind a fresh identity check.
+///
+/// Wrapping the screen (not the `Navigator.push` calls) means all three entry
+/// points — the Hubs grid, the dashboard shortcut and the shell tab — are
+/// covered by one gate that cannot be forgotten at a new call site.
+class LeaveRequestScreen extends StatelessWidget {
   const LeaveRequestScreen({super.key});
 
   @override
-  State<LeaveRequestScreen> createState() => _LeaveRequestScreenState();
+  Widget build(BuildContext context) {
+    return const SensitiveScreenGuard(
+      reason: AuthenticationReason.viewSecureDocument,
+      titleKey: 'profile.leave.title',
+      descriptionKey: 'auth.biometric.gate.leave_body',
+      child: _LeaveRequestView(),
+    );
+  }
 }
 
-class _LeaveRequestScreenState extends State<LeaveRequestScreen> {
+class _LeaveRequestView extends StatefulWidget {
+  const _LeaveRequestView();
+
+  @override
+  State<_LeaveRequestView> createState() => _LeaveRequestScreenState();
+}
+
+class _LeaveRequestScreenState extends State<_LeaveRequestView> {
   // Reactive State
   UserRole _currentRole = UserRole.manager; // Default to Approver view
   LeaveStatus _filterStatus = LeaveStatus.pending;

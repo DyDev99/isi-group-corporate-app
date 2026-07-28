@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isi_group_corporate_app/core/auth/auth_guard.dart';
 import 'package:isi_group_corporate_app/core/di/injection_container.dart';
+import 'package:isi_group_corporate_app/features/shell/presentation/widgets/fast_actions/edit_fast_actions_bottom_sheet.dart' hide CustomBottomNavBar;
 import 'package:isi_group_corporate_app/features/digital_docs/presentation/screens/digital_docs_screen.dart';
 import 'package:isi_group_corporate_app/features/directory/presentation/bloc/directory_bloc.dart';
 import 'package:isi_group_corporate_app/features/directory/presentation/pages/directory_screen.dart';
@@ -24,6 +25,9 @@ import 'package:isi_group_corporate_app/features/shell/presentation/widgets/fast
 import 'package:isi_group_corporate_app/features/time_attendance/presentation/screens/time_attendance_screen.dart';
 import 'package:isi_group_corporate_app/features/travel/presentation/screens/travel_screen.dart';
 
+// Assuming GridBackground is accessible here based on your previous file structure
+// import 'package:isi_group_corporate_app/shared/widgets/grid_background.dart';
+
 /// Coordinates the persistent shell state and delegates dashboard UI to widgets.
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -36,11 +40,14 @@ class _MainShellState extends State<MainShell>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   final Set<int> _visitedTabs = {0};
+  
+  // 1. INCREASED DURATION FOR SMOOTHER SETTLE
   late final AnimationController _tabTransition = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 300),
+    duration: const Duration(milliseconds: 400), 
     value: 1,
   );
+  
   List<FastActionTool> _userFastActions = [
     FastActionTool(id: 'leave', title: 'Apply Leave', icon: Icons.calendar_month_outlined, isEnabled: true),
     FastActionTool(id: 'expense', title: 'Expense', icon: Icons.receipt_long_outlined, isEnabled: true),
@@ -119,17 +126,18 @@ class _MainShellState extends State<MainShell>
           BlocProvider(create: (_) => sl<HrChatBloc>()..add(const HrChatStarted())),
         ],
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xFFF8FAFC), // Unified soft background
           body: AnimatedBuilder(
             animation: _tabTransition,
             builder: (context, child) {
-              final t = Curves.easeOutCubic.transform(_tabTransition.value);
+              // 2. UPDATED TO EASE_OUT_EXPO FOR PREMIUM FLUID MOTION
+              final t = Curves.easeOutExpo.transform(_tabTransition.value);
               return Opacity(
-                opacity: .4 + .6 * t,
+                opacity: 0.2 + 0.8 * t, // Softer fade-in progression
                 child: Transform.translate(
-                  offset: Offset(0, (1 - t) * 14),
+                  offset: Offset(0, (1 - t) * 24), // Extended glide distance (24px)
                   child: Transform.scale(
-                    scale: .985 + .015 * t,
+                    scale: 0.95 + 0.05 * t, // Slightly deeper zoom effect
                     child: child,
                   ),
                 ),

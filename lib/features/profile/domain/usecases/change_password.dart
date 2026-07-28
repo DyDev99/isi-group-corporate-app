@@ -23,4 +23,3 @@ class ChangePassword implements UseCase<void, ChangePasswordParams> {
         newPassword: params.newPassword,
       );
 }
-

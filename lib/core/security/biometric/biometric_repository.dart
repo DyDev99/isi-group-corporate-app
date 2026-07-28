@@ -25,6 +25,10 @@ abstract interface class BiometricRepository {
   /// Returns `Success(true)` only on a positive match. Dismissal, lockout and
   /// unsupported hardware are typed `BiometricFailure`s — never exceptions,
   /// and never a silent `false`.
+  ///
+  /// Biometric-only: the device PIN is never accepted as a substitute. The
+  /// account password is the sanctioned last option and is offered by the
+  /// calling surface, not by the OS prompt.
   ResultFuture<bool> authenticate({required BiometricPromptCopy copy});
 
   /// Cancels an in-flight prompt.

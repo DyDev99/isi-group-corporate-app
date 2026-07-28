@@ -114,8 +114,9 @@ class BiometricState extends Equatable {
         settings: settings ?? this.settings,
         capability: capability ?? this.capability,
         step: step ?? this.step,
-        pendingModality:
-            clearPendingModality ? null : pendingModality ?? this.pendingModality,
+        pendingModality: clearPendingModality
+            ? null
+            : pendingModality ?? this.pendingModality,
         failureCode: clearFailure ? null : failureCode ?? this.failureCode,
         isBusy: isBusy ?? this.isBusy,
         enrollmentStatus: enrollmentStatus ?? this.enrollmentStatus,

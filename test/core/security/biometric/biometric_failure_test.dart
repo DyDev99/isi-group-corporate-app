@@ -63,7 +63,8 @@ void main() {
         biometricFailureCodeFromPlatform('SomeFutureCode'),
         BiometricFailureCode.unknown,
       );
-      expect(biometricFailureCodeFromPlatform(''), BiometricFailureCode.unknown);
+      expect(
+          biometricFailureCodeFromPlatform(''), BiometricFailureCode.unknown);
     });
   });
 
@@ -176,7 +177,8 @@ void main() {
     test('unsupported maps to noHardware or unavailable by reason', () {
       expect(
         BiometricEnrollmentStatus.fromCapability(
-          const BiometricCapability.unsupported(BiometricFailureCode.noHardware),
+          const BiometricCapability.unsupported(
+              BiometricFailureCode.noHardware),
         ),
         BiometricEnrollmentStatus.noHardware,
       );
@@ -227,7 +229,8 @@ void main() {
       );
     });
 
-    test('isUsable requires enabled AND registered AND a modality AND the '
+    test(
+        'isUsable requires enabled AND registered AND a modality AND the '
         'biometric-first preference', () {
       const base = BiometricSettings(
         biometricEnabled: true,
@@ -264,7 +267,8 @@ void main() {
 
       expect(settings.clearedForLogout(), equals(settings));
       expect(settings.clearedForLogout().biometricRegistered, isTrue);
-      expect(settings.clearedForLogout().biometricType, {BiometricModality.face});
+      expect(
+          settings.clearedForLogout().biometricType, {BiometricModality.face});
     });
 
     test('AuthenticationPreference decodes by name and defaults safely', () {

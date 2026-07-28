@@ -316,8 +316,8 @@ Future<void> showChangePasswordSheet(BuildContext context) {
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (sheetContext) => Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(sheetContext).viewInsets.bottom),
+      padding: EdgeInsets.only(
+          bottom: MediaQuery.of(sheetContext).viewInsets.bottom),
       child: Container(
         decoration: BoxDecoration(
           color: colors.card,

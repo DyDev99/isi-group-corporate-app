@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:isi_group_corporate_app/core/security/biometric/authentication_reason.dart';
+import 'package:isi_group_corporate_app/shared/widgets/biometric/sensitive_screen_guard.dart';
 
-class PerformanceScreen extends StatefulWidget {
+/// Performance reviews and goals — gated behind a fresh identity check.
+///
+/// Wrapping the screen (not the `Navigator.push` calls) means every entry
+/// point — Profile, the Hubs grid, and the shell tab — is covered by one gate.
+class PerformanceScreen extends StatelessWidget {
   const PerformanceScreen({super.key});
 
   @override
-  State<PerformanceScreen> createState() => _PerformanceScreenState();
+  Widget build(BuildContext context) {
+    return const SensitiveScreenGuard(
+      reason: AuthenticationReason.viewSecureDocument,
+      titleKey: 'profile.performance.title',
+      descriptionKey: 'auth.biometric.gate.performance_body',
+      child: _PerformanceView(),
+    );
+  }
 }
 
-class _PerformanceScreenState extends State<PerformanceScreen>
+class _PerformanceView extends StatefulWidget {
+  const _PerformanceView();
+
+  @override
+  State<_PerformanceView> createState() => _PerformanceScreenState();
+}
+
+class _PerformanceScreenState extends State<_PerformanceView>
     with SingleTickerProviderStateMixin {
   String _selectedQuarter = 'Q2 2026';
   String _activeFilter = 'All'; // 'All', 'In Progress', 'Completed'

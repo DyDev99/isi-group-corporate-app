@@ -55,4 +55,3 @@ class MockProfileRemoteDataSource implements ProfileRemoteDataSource {
     await Future<void>.delayed(const Duration(milliseconds: 150));
   }
 }
-

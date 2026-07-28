@@ -9,4 +9,3 @@ class LogoutWorker implements UseCase<void, NoParams> {
   @override
   Future<Result<void>> call(NoParams params) => _repository.logout();
 }
-
